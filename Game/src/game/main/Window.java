@@ -9,7 +9,7 @@ public class Window {
 	
 	public Window(Game game, int width, int height) {
 		
-		JFrame f = new JFrame();
+		JFrame f = new JFrame("Game v.0.0.1");
 		
 		Dimension d = new Dimension(width, height);
 		
@@ -18,7 +18,7 @@ public class Window {
 		f.setMinimumSize(d);
 		
 		f.setResizable(false);
-//		f.setUndecorated(true);
+		f.setUndecorated(true);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(3);
 		
