@@ -11,7 +11,10 @@ import game.ai.A_Visualization;
 import game.gfx.BufferedImageLoader;
 import game.input.KeyInput;
 import game.input.MouseInput;
+import game.map.Tileset;
+import game.objects.Enemy;
 import game.objects.ID;
+import game.objects.Obstacle;
 import game.objects.Player;
 import game.states.GameState;
 import game.states.Menu;
@@ -26,6 +29,9 @@ public class Game extends Canvas implements Runnable {
 	Menu menu;
 	public static GameState gs;
 
+	public static Tileset ts, aStarTs;
+
+	private BufferedImage aStar = null;
 	private BufferedImage level = null;
 
 	private void init() {
@@ -36,19 +42,40 @@ public class Game extends Canvas implements Runnable {
 		gs = GameState.Menu;
 
 		menu = new Menu(handler);
-		
+
 		MouseInput mi = new MouseInput(handler);
-		
+
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(mi);
 		this.addMouseMotionListener(mi);
-		
 
 		BufferedImageLoader loader = new BufferedImageLoader();
+		aStar = loader.loadImage("/test.png/");
+		aStarTs = new Tileset(aStar);
+
+		a_ = new A_Visualization(aStarTs);
+
 		level = loader.loadImage("/level.png/");
 
-		a_ = new A_Visualization(level);
+		ts = new Tileset(level);
+		loadTileset(aStarTs);
+	}
 
+	private void loadTileset(Tileset ts) {
+		for (int x = 0; x < ts.getTileset().length; x++) {
+			for (int y = 0; y < ts.getTileset()[x].length; y++) {
+
+				if (ts.getTile(x, y).getId() == ID.Player) {
+					handler.addObject(new Player(x, y, ID.Player));
+				}
+				if (ts.getTile(x, y).getId() == ID.Enemy) {
+					handler.addObject(new Enemy(x, y , ID.Enemy));
+				}
+				if (ts.getTile(x, y).getId() == ID.Obstacle) {
+					handler.addObject(new Obstacle(x, y, ID.Obstacle));
+				}
+			}
+		}
 	}
 
 	// RENDERING
@@ -71,17 +98,17 @@ public class Game extends Canvas implements Runnable {
 
 		if (gs == GameState.Game)
 			render_game(g, g2d);
-		if(gs == GameState.Menu) 
+		if (gs == GameState.Menu)
 			menu.render(g);
-		if(gs==GameState.aStar)
+		if (gs == GameState.aStar)
 			a_.render(g);
 
-		if(handler.isDebug()) {
+		if (handler.isDebug()) {
 			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
-			g.drawString(mousePos, 20,20);
+			g.drawString(mousePos, 20, 20);
 		}
-		
+
 		// STOP RENDERING
 
 		g.dispose();
@@ -93,13 +120,13 @@ public class Game extends Canvas implements Runnable {
 		g2d.translate(-camera.getX(), -camera.getY());
 
 		handler.render(g);
-		
+
 		g2d.translate(camera.getX(), camera.getY());
-		
-		if(handler.isDebug()) {
+
+		if (handler.isDebug()) {
 			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
-			g.drawString(mousePos, 20,20);
+			g.drawString(mousePos, 20, 20);
 		}
 	}
 
@@ -107,15 +134,15 @@ public class Game extends Canvas implements Runnable {
 
 	private void tick() {
 
-		if(gs==GameState.Game)
+		if (gs == GameState.Game)
 			tick_game();
-		if(gs==GameState.Menu)
+		if (gs == GameState.Menu)
 			menu.tick();
-		if(gs==GameState.aStar)
+		if (gs == GameState.aStar)
 			a_.tick();
-		
+
 	}
-	
+
 	private void tick_game() {
 		for (int i = 0; i < handler.objects.size(); i++) {
 			if (handler.objects.get(i).getId() == ID.Player) {
@@ -124,23 +151,6 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		handler.tick();
-	}
-
-	private void loadLevel(BufferedImage image) {
-		int w = image.getWidth();
-		int h = image.getHeight();
-
-		for (int xx = 0; xx < w; xx++) {
-			for (int yy = 0; yy < h; yy++) {
-				int pixel = image.getRGB(xx, yy);
-				int red = (pixel >> 16) & 0xff;
-				int green = (pixel >> 8) & 0xff;
-				int blue = (pixel) & 0xff;
-
-				if (red == 0 && green == 0 && blue == 0)
-					handler.addObject(new Player(xx * 50, yy * 50, ID.Player));
-			}
-		}
 	}
 
 	// START
@@ -176,7 +186,7 @@ public class Game extends Canvas implements Runnable {
 		init();
 		this.requestFocus();
 		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
+		double amountOfTicks = 5.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();

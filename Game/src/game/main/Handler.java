@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class Handler {
 
 	LinkedList<GameObject> objects = new LinkedList<GameObject>();
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	private int mx,my;
 

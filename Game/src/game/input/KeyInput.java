@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import game.main.Game;
 import game.main.GameObject;
 import game.main.Handler;
+import game.objects.Enemy;
+import game.objects.ID;
 import game.states.GameState;
 
 public class KeyInput extends KeyAdapter {
@@ -34,17 +36,16 @@ public class KeyInput extends KeyAdapter {
 			Game.gs = GameState.Game;
 		}
 
-		if (key == KeyEvent.VK_A) {
-			if (Game.gs != GameState.aStar)
-				Game.gs = GameState.aStar;
-			else {
-				Game.gs = GameState.Game;
-			}
-		}
+		
 
 		for (int i = 0; i < handler.getObjects().size(); i++) {
 			GameObject temp = handler.getObjects().get(i);
-
+			
+			if (key == KeyEvent.VK_A) {
+				if(temp.getId() == ID.Enemy) {
+					Enemy.do_path = true;
+				}
+			}
 		}
 	}
 

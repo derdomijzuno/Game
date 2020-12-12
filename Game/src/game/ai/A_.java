@@ -1,49 +1,66 @@
 package game.ai;
 
-import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
+import game.map.Tile;
+import game.map.Tileset;
+import game.objects.ID;
+
 public class A_ {
 
-	BufferedImage map;
 	Field[][] field;
+	
+	Tileset ts;
 
 	private boolean path_found = false;
 
 	Field start, end;
 	Field path_start;
+	
+	Tile startTile, endTile;
 
 	LinkedList<Field> openList = new LinkedList<Field>();
 	LinkedList<Field> closedList = new LinkedList<Field>();
-	LinkedList<Field> path = new LinkedList<Field>();
+	LinkedList<Tile> path = new LinkedList<Tile>();
 
-	public A_(BufferedImage map) {
-		this.map = map;
-		field = new Field[map.getWidth()][map.getHeight()];
-		initMap(map);
+	public A_() {
+		
+	}
+	
+	public LinkedList<Tile> getPath(Tileset ts, Tile start, Tile end){
+		field = new Field[ts.getW()][ts.getH()];
+		startTile = start;
+		endTile = end;
+		this.ts=ts;
+		
+		initMap(ts);
+		start();
+		
+		return path;
 	}
 
-	private void initMap(BufferedImage map) {
-		int w = map.getWidth();
-		int h = map.getHeight();
+	private void initMap(Tileset ts) {
+		
+		openList.clear();
+		closedList.clear();
+		path.clear();
+		
+		int w = ts.getW();
+		int h = ts.getH();
 
 		for (int xx = 0; xx < w; xx++) {
 			for (int yy = 0; yy < h; yy++) {
-				int pixel = map.getRGB(xx, yy);
-				int red = (pixel >> 16) & 0xff;
-				int green = (pixel >> 8) & 0xff;
-				int blue = (pixel) & 0xff;
-
+				
 				field[xx][yy] = new Field(xx, yy);
 
-				if (red == 0 && green == 0 && blue == 0)
+				if (ts.getTile(xx, yy).getId()==ID.Obstacle)
 					field[xx][yy].setFt(Fieldtype.obstacle);
-				else if (red == 255 && green == 0 && blue == 0) {
+				else if (ts.getTile(xx, yy) == endTile) {
 					field[xx][yy].setFt(Fieldtype.end);
 					end = field[xx][yy];
-				} else if (red == 0 && green == 0 && blue == 255) {
+				} else if (ts.getTile(xx, yy) == startTile) {
 					field[xx][yy].setFt(Fieldtype.start);
 					start = field[xx][yy];
 				} else
@@ -75,10 +92,10 @@ public class A_ {
 
 		if (path_found) {
 			path_start = (closedList.get(closedList.size() - 2));
-			path.add(path_start);
+			path.add(ts.getTileset()[path_start.getX()][path_start.getY()]);
 
 			while (path_start.getPrev() != start) {
-				path.add(path_start.getPrev());
+				path.add(ts.getTileset()[path_start.getPrev().getX()][path_start.getPrev().getY()]);
 				path_start = path_start.getPrev();
 			}
 		}
@@ -181,17 +198,6 @@ public class A_ {
 		}
 
 		return min;
-	}
-
-	int tick = 1;
-
-	public void tick() {
-		if (path_found) {
-			if (tick <= path.size()) {
-				path.get(tick - 1).setFt(Fieldtype.path);
-				tick++;
-			}
-		}
 	}
 
 }
