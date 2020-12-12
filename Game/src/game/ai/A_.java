@@ -67,11 +67,23 @@ public class A_ {
 			openList.remove(min);
 
 			checkFields(min);
-			
-			if(!closedList.contains(end))
+
+			if (!closedList.contains(end)) {
 				path_found = true;
-			
+
+			}
+
 		} while (!closedList.contains(end) || openList.isEmpty());
+
+		if (path_found) {
+			path_start = (closedList.get(closedList.size() - 2));
+			path.add(path_start);
+
+			while (path_start.getPrev() != start) {
+				path.add(path_start.getPrev());
+				path_start = path_start.getPrev();
+			}
+		}
 	}
 
 	private void checkFields(Field min) {
@@ -173,18 +185,12 @@ public class A_ {
 		return min;
 	}
 
+	int tick = 1;
 	public void tick() {
-
 		if (path_found) {
-			if (path_start == null) {
-				path_start = closedList.get(closedList.size() - 2);
-				path_start.setFt(Fieldtype.path);
-				path.add(path_start);
-			} else {
-				if (path_start.getPrev() != start) {
-					path_start = path_start.getPrev();
-					path_start.setFt(Fieldtype.path);
-				}
+			if (tick <= path.size()) {
+				path.get(tick-1).setFt(Fieldtype.path);
+				tick++;
 			}
 		}
 	}

@@ -25,22 +25,19 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage level = null;
 
 	private void init() {
-		
+
 		new Window(this, 1280, 720);
 		handler = new Handler();
 		camera = new Camera(0, 0);
-		
-		
-		
+
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(new MouseInput(handler));
 
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/level.png/");
-		
-		
-//		a_ = new A_Visualization(level);
-		
+
+		a_ = new A_Visualization(level);
+
 	}
 
 	// RENDERING
@@ -64,7 +61,8 @@ public class Game extends Canvas implements Runnable {
 		g2d.translate(-camera.getX(), -camera.getY());
 
 		handler.render(g);
-//		a_.render(g);
+		if (handler.isDebug())
+			a_.render(g);
 
 		g2d.translate(camera.getX(), camera.getY());
 
@@ -86,7 +84,8 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		handler.tick();
-//		a_.tick();
+		if (handler.isDebug())
+			a_.tick();
 	}
 
 	private void loadLevel(BufferedImage image) {
@@ -156,7 +155,7 @@ public class Game extends Canvas implements Runnable {
 			}
 			render();
 			frames++;
-			
+
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				System.out.println(updates + " TICKS, FPS " + frames);

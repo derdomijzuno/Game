@@ -21,6 +21,12 @@ public class KeyInput extends KeyAdapter {
 			System.exit(0);
 		}
 
+		if (key == KeyEvent.VK_E) {
+			if (handler.isDebug())
+				handler.setDebug(false);
+			else if (!handler.isDebug())
+				handler.setDebug(true);
+		}
 		for (int i = 0; i < handler.getObjects().size(); i++) {
 			GameObject temp = handler.getObjects().get(i);
 

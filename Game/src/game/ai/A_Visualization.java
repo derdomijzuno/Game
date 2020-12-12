@@ -14,10 +14,10 @@ public class A_Visualization {
 		this.map=map;
 		a_ = new A_(map);
 		f = a_.getMap();
-		try {
-			a_.start();
-		} catch (Exception e) {
-		}
+//		try {
+//			a_.start();
+//		} catch (Exception e) {
+//		}
 	}
 	
 	public void render(Graphics g) {
