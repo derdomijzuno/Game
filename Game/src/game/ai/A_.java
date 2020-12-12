@@ -68,10 +68,8 @@ public class A_ {
 
 			checkFields(min);
 
-			if (!closedList.contains(end)) {
+			if (!closedList.contains(end))
 				path_found = true;
-
-			}
 
 		} while (!closedList.contains(end) || openList.isEmpty());
 
@@ -186,10 +184,11 @@ public class A_ {
 	}
 
 	int tick = 1;
+
 	public void tick() {
 		if (path_found) {
 			if (tick <= path.size()) {
-				path.get(tick-1).setFt(Fieldtype.path);
+				path.get(tick - 1).setFt(Fieldtype.path);
 				tick++;
 			}
 		}

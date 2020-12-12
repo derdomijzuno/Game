@@ -13,6 +13,8 @@ import game.input.KeyInput;
 import game.input.MouseInput;
 import game.objects.ID;
 import game.objects.Player;
+import game.states.GameState;
+import game.states.Menu;
 
 public class Game extends Canvas implements Runnable {
 
@@ -21,6 +23,8 @@ public class Game extends Canvas implements Runnable {
 	Handler handler;
 	Camera camera;
 	A_Visualization a_;
+	Menu menu;
+	public static GameState gs;
 
 	private BufferedImage level = null;
 
@@ -29,9 +33,16 @@ public class Game extends Canvas implements Runnable {
 		new Window(this, 1280, 720);
 		handler = new Handler();
 		camera = new Camera(0, 0);
+		gs = GameState.Menu;
 
+		menu = new Menu(handler);
+		
+		MouseInput mi = new MouseInput(handler);
+		
 		this.addKeyListener(new KeyInput(handler));
-		this.addMouseListener(new MouseInput(handler));
+		this.addMouseListener(mi);
+		this.addMouseMotionListener(mi);
+		
 
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/level.png/");
@@ -58,14 +69,19 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, 1280, 720);
 
-		g2d.translate(-camera.getX(), -camera.getY());
-
-		handler.render(g);
-		if (handler.isDebug())
+		if (gs == GameState.Game)
+			render_game(g, g2d);
+		if(gs == GameState.Menu) 
+			menu.render(g);
+		if(gs==GameState.aStar)
 			a_.render(g);
 
-		g2d.translate(camera.getX(), camera.getY());
-
+		if(handler.isDebug()) {
+			g.setColor(Color.RED);
+			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
+			g.drawString(mousePos, 20,20);
+		}
+		
 		// STOP RENDERING
 
 		g.dispose();
@@ -73,10 +89,34 @@ public class Game extends Canvas implements Runnable {
 
 	}
 
+	private void render_game(Graphics g, Graphics2D g2d) {
+		g2d.translate(-camera.getX(), -camera.getY());
+
+		handler.render(g);
+		
+		g2d.translate(camera.getX(), camera.getY());
+		
+		if(handler.isDebug()) {
+			g.setColor(Color.RED);
+			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
+			g.drawString(mousePos, 20,20);
+		}
+	}
+
 	// UPDATE
 
 	private void tick() {
 
+		if(gs==GameState.Game)
+			tick_game();
+		if(gs==GameState.Menu)
+			menu.tick();
+		if(gs==GameState.aStar)
+			a_.tick();
+		
+	}
+	
+	private void tick_game() {
 		for (int i = 0; i < handler.objects.size(); i++) {
 			if (handler.objects.get(i).getId() == ID.Player) {
 				camera.tick(handler.objects.get(i));
@@ -84,8 +124,6 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		handler.tick();
-		if (handler.isDebug())
-			a_.tick();
 	}
 
 	private void loadLevel(BufferedImage image) {

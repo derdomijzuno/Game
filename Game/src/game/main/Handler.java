@@ -7,6 +7,8 @@ public class Handler {
 
 	LinkedList<GameObject> objects = new LinkedList<GameObject>();
 	private boolean debug = false;
+	
+	private int mx,my;
 
 	public void render(Graphics g) {
 		for (int i = 0; i < objects.size(); i++) {
@@ -30,6 +32,9 @@ public class Handler {
 		objects.remove(temp);
 	}
 	
+	
+	// Getters and Setters
+	
 	public LinkedList<GameObject> getObjects(){
 		return objects;
 	}
@@ -40,6 +45,22 @@ public class Handler {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+
+	public int getMx() {
+		return mx;
+	}
+
+	public int getMy() {
+		return my;
+	}
+
+	public void setMx(int mx) {
+		this.mx = mx;
+	}
+
+	public void setMy(int my) {
+		this.my = my;
 	}
 	
 	
