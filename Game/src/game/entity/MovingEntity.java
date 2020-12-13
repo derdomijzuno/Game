@@ -15,7 +15,7 @@ public abstract class MovingEntity extends GameObject{
 	public MovingEntity(Position pos, Size size, ID id, Controller controller) {
 		super(pos, size, id);
 		this.controller=controller;
-		this.movement = new Motion(2);
+		this.movement = new Motion(5);
 	}
 
 	@Override
