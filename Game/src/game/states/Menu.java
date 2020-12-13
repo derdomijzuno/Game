@@ -20,7 +20,7 @@ public class Menu extends State {
 	@Override
 	public void tick() {
 		if (btn1.isActive()) {
-			Game.gs = GameState.Game;
+			Game.gs = StateID.Game;
 			btn1.setActive(false);
 		}
 	}

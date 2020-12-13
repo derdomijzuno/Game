@@ -1,17 +1,17 @@
-package game.objects;
+package game.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
-import game.ai.A_;
+import game.core.Position;
+import game.core.Size;
 import game.main.Game;
 import game.main.GameObject;
 import game.map.Tile;
 
 public class Enemy extends GameObject {
 
-	private A_ pathfinder;
 	LinkedList<Tile> path;
 
 	private boolean up, down, left, right;
@@ -21,25 +21,13 @@ public class Enemy extends GameObject {
 
 	public static boolean do_path = false;
 
-	public Enemy(int x, int y, ID id) {
-		super(x, y, id);
-		pathfinder = new A_();
-
+	public Enemy(Position pos, Size size, ID id) {
+		super(pos, size, id);
 	}
 
 	private void pathfinding() {
-		if (path == null) {
-			for (int xx = 0; xx < Game.ts.getW(); xx++) {
-				for (int yy = 0; yy < Game.ts.getH(); yy++) {
-					if (Game.ts.getTile(xx, yy).getId() == ID.Player) {
-						path = pathfinder.getPath(Game.ts, Game.ts.getTile(x, y), Game.ts.getTile(xx, yy));
-						moves = path.size() - 1;
-					}
-				}
-			}
-		}
 
-		Tile current = Game.ts.getTile(x, y);
+		Tile current = Game.ts.getTile(pos.intX(), pos.intY());
 		Tile next = path.get(moves);
 
 		if (current.getX() < next.getX()) {
@@ -58,7 +46,7 @@ public class Enemy extends GameObject {
 		} else if (current.getY() > next.getY()) {
 			down = false;
 			up = true;
-		}else {
+		} else {
 			down = false;
 			up = false;
 		}
@@ -78,20 +66,16 @@ public class Enemy extends GameObject {
 	@Override
 	protected void render(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(x * 20, y * 20, 20, 20);
+		g.fillRect(pos.intX(), pos.intY(), size.getWidth(), size.getHeight());
 	}
 
 	@Override
 	protected void tick() {
 
-		if (do_path) {
-			pathfinding();
-		}
-
 		move();
 
-		x += velX;
-		y += velY;
+		pos.setX(pos.getX() + velX);
+		pos.setY(pos.getY() + velY);
 	}
 
 	private void move() {

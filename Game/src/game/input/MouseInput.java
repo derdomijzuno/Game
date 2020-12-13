@@ -4,17 +4,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import game.ai.A_Visualization;
 import game.main.Game;
 import game.main.Handler;
-import game.states.GameState;
+import game.states.StateID;
 import game.states.Menu;
 import game.ui.ButtonCollision;
 
 public class MouseInput implements MouseListener, MouseMotionListener {
 
 	private Handler handler;
-	private boolean active = false;
 	int mx;
 	int my;
 
@@ -29,13 +27,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 		my = (int) e.getY();
 
 		System.out.println("MX: " + mx + " | MY: " + my);
-		if (Game.gs == GameState.aStar)
-			if (!active) {
-				A_Visualization.a_.start();
-				active = true;
-			}
 
-		if (Game.gs == GameState.Menu) {
+		if (Game.gs == StateID.Menu) {
 			if (bc.inside(e.getX(), e.getY(), Menu.btn1)) {
 				Menu.btn1.setActive(true);
 			} else {
@@ -57,7 +50,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 		handler.setMx(mx);
 		handler.setMy(my);
 
-		if (Game.gs == GameState.Menu) {
+		if (Game.gs == StateID.Menu) {
 			if (bc.inside(e.getX(), e.getY(), Menu.btn1)) {
 				Menu.btn1.setHover(true);
 			} else {

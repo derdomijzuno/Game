@@ -6,9 +6,10 @@ import java.util.LinkedList;
 public class Handler {
 
 	LinkedList<GameObject> objects = new LinkedList<GameObject>();
+	private boolean[] keys = new boolean[255];
 	private boolean debug = true;
-	
-	private int mx,my;
+
+	private int mx, my;
 
 	public void render(Graphics g) {
 		for (int i = 0; i < objects.size(); i++) {
@@ -31,11 +32,10 @@ public class Handler {
 	public void removeObject(GameObject temp) {
 		objects.remove(temp);
 	}
-	
-	
+
 	// Getters and Setters
-	
-	public LinkedList<GameObject> getObjects(){
+
+	public LinkedList<GameObject> getObjects() {
 		return objects;
 	}
 
@@ -62,6 +62,13 @@ public class Handler {
 	public void setMy(int my) {
 		this.my = my;
 	}
+
+	public boolean isKeyPressed(int keyCode) {
+		return keys[keyCode];
+	}
 	
-	
+	public void setKey(boolean pressed, int keyCode) {
+		keys[keyCode] = pressed;
+	}
+
 }

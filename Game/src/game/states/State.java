@@ -11,7 +11,7 @@ public abstract class State {
 		this.handler = handler;
 	}
 	
-	protected abstract void tick();
-	protected abstract void render(Graphics g);
+	public abstract void tick();
+	public abstract void render(Graphics g);
 	
 }

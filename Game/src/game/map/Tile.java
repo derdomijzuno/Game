@@ -1,20 +1,18 @@
 package game.map;
 
-import game.objects.ID;
-
 public class Tile {
 
 	private int x, y;
-	private ID id;
+	private boolean isWalkable;
 
-	public Tile(int x, int y, ID id) {
+	public Tile(int x, int y, boolean isWalkable) {
 		this.x = x;
 		this.y = y;
-		this.id = id;
+		this.isWalkable = isWalkable;
 	}
 
 	// Getters and Setters
-	
+
 	public int getX() {
 		return x;
 	}
@@ -31,14 +29,12 @@ public class Tile {
 		this.y = y;
 	}
 
-	public ID getId() {
-		return id;
+	public boolean isWalkable() {
+		return isWalkable;
 	}
 
-	public void setId(ID id) {
-		this.id = id;
+	public void setWalkable(boolean isWalkable) {
+		this.isWalkable = isWalkable;
 	}
-	
-	
 
 }

@@ -2,40 +2,28 @@ package game.main;
 
 import java.awt.Graphics;
 
-import game.objects.ID;
+import game.core.Position;
+import game.core.Size;
+import game.entity.ID;
 
 public abstract class GameObject {
 
-	protected int x,y;
+	protected Size size;
+	protected Position pos;
 	protected ID id;
-	
-	public GameObject(int x, int y, ID id) {
-		this.x=x;
-		this.y=y;
-		this.id=id;
+
+	public GameObject(Position pos, Size size,  ID id) {
+		this.size = size;
+		this.pos = pos;
+		this.id = id;
 	}
-	
+
 	protected abstract void render(Graphics g);
+
 	protected abstract void tick();
 
 	// Getters and Setters
 	
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
 	public ID getId() {
 		return id;
 	}
@@ -43,6 +31,21 @@ public abstract class GameObject {
 	public void setId(ID id) {
 		this.id = id;
 	}
-	
-	
+
+	public Size getSize() {
+		return size;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
+
+	public Position getPos() {
+		return pos;
+	}
+
+	public void setPos(Position pos) {
+		this.pos = pos;
+	}
+
 }

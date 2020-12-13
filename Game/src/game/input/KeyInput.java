@@ -3,12 +3,12 @@ package game.input;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import game.entity.Enemy;
+import game.entity.ID;
 import game.main.Game;
 import game.main.GameObject;
 import game.main.Handler;
-import game.objects.Enemy;
-import game.objects.ID;
-import game.states.GameState;
+import game.states.StateID;
 
 public class KeyInput extends KeyAdapter {
 
@@ -20,10 +20,12 @@ public class KeyInput extends KeyAdapter {
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
+		
+		handler.setKey(true, e.getKeyCode());
 
-		if (key == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
-		}
+//		if (key == KeyEvent.VK_ESCAPE) {
+//			System.exit(0);
+//		}
 
 		if (key == KeyEvent.VK_E) {
 			if (handler.isDebug())
@@ -33,7 +35,7 @@ public class KeyInput extends KeyAdapter {
 		}
 
 		if (key == KeyEvent.VK_G) {
-			Game.gs = GameState.Game;
+			Game.gs = StateID.Game;
 		}
 
 		
@@ -50,7 +52,7 @@ public class KeyInput extends KeyAdapter {
 	}
 
 	public void keyReleased(KeyEvent e) {
-
+		handler.setKey(false, e.getKeyCode());
 	}
 
 }

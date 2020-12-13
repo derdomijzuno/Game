@@ -10,8 +10,8 @@ public class Camera {
 	}
 
 	public void tick(GameObject temp) {
-		x += ((temp.getX() - x) - 1280 / 2) * 0.05f;
-		y += ((temp.getY() - y) - 720 / 2) * 0.05f;
+		x += ((temp.getPos().getX() - x) - 1280 / 2) * 0.05f;
+		y += ((temp.getPos().getY() - y) - 720 / 2) * 0.05f;
 
 		if (x <= 0)
 			x = 0;

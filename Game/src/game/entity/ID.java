@@ -1,4 +1,4 @@
-package game.objects;
+package game.entity;
 
 public enum ID {
 	
