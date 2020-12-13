@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import game.input.KeyInput;
 import game.input.MouseInput;
-import game.map.Tileset;
 import game.states.GameState;
 import game.states.Menu;
 import game.states.StateID;
@@ -21,7 +20,6 @@ public class Game extends Canvas implements Runnable {
 	Menu menu;
 	public static StateID gs;
 
-	public static Tileset ts, aStarTs;
 
 	private BufferedImage aStar = null;
 	private BufferedImage level = null;

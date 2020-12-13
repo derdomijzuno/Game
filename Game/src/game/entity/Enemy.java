@@ -25,44 +25,6 @@ public class Enemy extends GameObject {
 		super(pos, size, id);
 	}
 
-	private void pathfinding() {
-
-		Tile current = Game.ts.getTile(pos.intX(), pos.intY());
-		Tile next = path.get(moves);
-
-		if (current.getX() < next.getX()) {
-			left = false;
-			right = true;
-		} else if (current.getX() > next.getX()) {
-			right = false;
-			left = true;
-		} else {
-			right = false;
-			left = false;
-		}
-		if (current.getY() < next.getY()) {
-			up = false;
-			down = true;
-		} else if (current.getY() > next.getY()) {
-			down = false;
-			up = true;
-		} else {
-			down = false;
-			up = false;
-		}
-
-		if (moves > 0) {
-			moves--;
-		} else {
-			path.clear();
-			up = false;
-			down = false;
-			right = false;
-			left = false;
-		}
-
-	}
-
 	@Override
 	protected void render(Graphics g) {
 		g.setColor(Color.RED);
