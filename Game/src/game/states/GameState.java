@@ -15,6 +15,7 @@ import game.entity.Obstacle;
 import game.entity.Player;
 import game.gfx.BufferedImageLoader;
 import game.main.Camera;
+import game.main.Game;
 import game.main.Handler;
 import game.map.GameMap;
 
@@ -43,14 +44,17 @@ public class GameState extends State {
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
 				if (!map.getTiles()[x][y].isWalkable()) {
-					handler.addObject(new Obstacle(new Position(x * 50, y * 50), new Size(50, 50), ID.Enemy));
+					handler.addObject(new Obstacle(new Position(x * Game.tileSize, y * Game.tileSize),
+							new Size(Game.tileSize, Game.tileSize), ID.Enemy));
 				}
 			}
 		}
 
-		handler.addObject(new Enemy(new Position(2 * 50, 1 * 50), new Size(50, 50), ID.Enemy));
-		handler.addObject(new Player(new Position(6 * 50, 1 * 50), new Size(50, 50), ID.Player,
-				new PlayerController(handler), handler));
+		handler.addObject(new Player(new Position(6 * Game.tileSize, 1 * Game.tileSize),
+				new Size(Game.tileSize, Game.tileSize), ID.Player, new PlayerController(handler), handler));
+
+		handler.addObject(new Enemy(new Position(20 * Game.tileSize, 11 * Game.tileSize),
+				new Size(Game.tileSize, Game.tileSize), ID.Enemy));
 
 	}
 
@@ -62,9 +66,6 @@ public class GameState extends State {
 			}
 		}
 
-		if (handler.isKeyPressed(KeyEvent.VK_ESCAPE))
-			System.exit(0);
-
 		handler.tick();
 
 	}
@@ -73,20 +74,30 @@ public class GameState extends State {
 	public void render(Graphics g) {
 
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, 1280, 720);
+		g.fillRect(0, 0, Game.WindowWidth, Game.WindowHeight);
 
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.translate(-camera.getX(), -camera.getY());
 
 		handler.render(g);
+		
+		if(handler.isDebug()) {
+			for (int x = 0; x < map.getTiles().length; x++) {
+				g.drawLine(x * Game.tileSize, 0, x * Game.tileSize, Game.WindowHeight);
+			}
+			for (int y = 0; y < map.getTiles()[0].length; y++) {
+				g.drawLine(0, y * Game.tileSize, Game.WindowWidth, y * Game.tileSize);
+			}
+		}
 
 		g2d.translate(camera.getX(), camera.getY());
 
 		if (handler.isDebug()) {
 			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
-			g.drawString(mousePos, 20, 20);
+			g.drawString(mousePos, 50, 50);
+			
 		}
 
 	}

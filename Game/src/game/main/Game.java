@@ -19,10 +19,10 @@ public class Game extends Canvas implements Runnable {
 	GameState game;
 	Menu menu;
 	public static StateID gs;
-
-
-	private BufferedImage aStar = null;
-	private BufferedImage level = null;
+	
+	public static final int tileSize = 20;
+	public static final int WindowWidth = 1280;
+	public static final int WindowHeight = 720;
 
 	private void init() {
 
@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable {
 		
 		gs = StateID.Menu;
 
-		new Window(this, 1280, 720);
+		new Window(this, WindowWidth, WindowHeight);
 
 		MouseInput mi = new MouseInput(handler);
 		this.addKeyListener(new KeyInput(handler));

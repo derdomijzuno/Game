@@ -1,5 +1,7 @@
 package game.core;
 
+import game.main.Game;
+
 public class Position {
 	
 	private double x,y;
@@ -34,19 +36,20 @@ public class Position {
 	}
 	
 	public int gridX() {
-		return (int) (x / 50);
+		return (int) (x / Game.tileSize);
 	}
 
 	public int gridY() {
-		return (int) (y / 50);
+		return (int) (y / Game.tileSize);
 	}
 	
 	public static Position ofGridPosition(int gridX, int gridY) {
-		return new Position(gridX * 50 + 50 / 2, gridY * 50 + 50 / 2);
+		return new Position(gridX * Game.tileSize + Game.tileSize / 2, gridY * Game.tileSize + Game.tileSize / 2);
 	}
 	
 	public void apply(Motion movement) {
 		Vector2D vector = movement.getVector();
+		
 		x += vector.getX();
 		y += vector.getY();
 	}

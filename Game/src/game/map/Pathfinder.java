@@ -34,7 +34,7 @@ public class Pathfinder {
 		Node targetNode = nodeMap[target.gridX()][target.gridY()];
 
 		open.add(startNode);
-		
+
 		do {
 
 			current = open.poll();
@@ -48,6 +48,13 @@ public class Pathfinder {
 				for (int y = current.gridY - 1; y < current.gridY + 2; y++) {
 					if (map.gridWithinBounds(x, y)) {
 						Node neighbor = nodeMap[x][y];
+
+						if (neighbor.gridX == current.gridX - 1 && neighbor.gridY == current.gridY - 1
+								|| neighbor.gridX == current.gridX + 1 && neighbor.gridY == current.gridY - 1
+								|| neighbor.gridX == current.gridX - 1 && neighbor.gridY == current.gridY + 1
+								|| neighbor.gridX == current.gridX + 1 && neighbor.gridY == current.gridY - 1) {
+							neighbor.moveCost = 14;
+						}
 
 						if (closed.contains(neighbor)) {
 							continue;

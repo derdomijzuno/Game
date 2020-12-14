@@ -8,6 +8,8 @@ import java.util.List;
 import game.controller.Controller;
 import game.core.Position;
 import game.core.Size;
+import game.main.Game;
+import game.main.GameObject;
 import game.main.Handler;
 import game.map.Pathfinder;
 import game.states.GameState;
@@ -23,7 +25,8 @@ public class Player extends MovingEntity {
 	}
 
 	private void pathfinding(Position target) {
-		path = Pathfinder.findPath(this.pos, target, GameState.map);
+		Position gridPos = pos.ofGridPosition(pos.intX() / Game.tileSize, pos.intY() / Game.tileSize);
+		path = Pathfinder.findPath(pos, target, GameState.map);
 	}
 
 	@Override
@@ -34,7 +37,8 @@ public class Player extends MovingEntity {
 		if (path != null) {
 			for (int i = 0; i < path.size(); i++) {
 				g.setColor(Color.CYAN);
-				g.fillRect(path.get(i).gridX() * 50,path.get(i).gridY() * 50, 50, 50);
+				g.fillRect(path.get(i).gridX() * Game.tileSize, path.get(i).gridY() * Game.tileSize, Game.tileSize,
+						Game.tileSize);
 			}
 		}
 	}
@@ -42,10 +46,36 @@ public class Player extends MovingEntity {
 	@Override
 	public void tick() {
 		super.tick();
+		checkBounds();
 
 		if (handler.isKeyPressed(KeyEvent.VK_B)) {
-			pathfinding(new Position(100, 100));
+			for (int i = 0; i < handler.getObjects().size(); i++) {
+				GameObject temp = handler.getObjects().get(i);
+				if (temp.getId() == ID.Enemy) {
+					if (path == null)
+						pathfinding(new Position(temp.getPos().gridX() * Game.tileSize,
+								temp.getPos().gridY() * Game.tileSize));
+				}
+			}
 		}
+
+	}
+
+	private void checkBounds() {
+
+		if (pos.getX() + size.getWidth() > GameState.map.getTiles().length * Game.tileSize) {
+			pos.setX(GameState.map.getTiles().length * Game.tileSize - size.getWidth());
+		}
+		if (pos.getX() < 0) {
+			pos.setX(0);
+		}
+		if (pos.getY() + size.getHeight() > GameState.map.getTiles()[0].length * Game.tileSize) {
+			pos.setY(GameState.map.getTiles()[0].length * Game.tileSize - size.getHeight());
+		}
+		if (pos.getY() < 0) {
+			pos.setY(0);
+		}
+
 	}
 
 }

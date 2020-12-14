@@ -38,7 +38,9 @@ public class KeyInput extends KeyAdapter {
 			Game.gs = StateID.Game;
 		}
 
-		
+
+		if (handler.isKeyPressed(KeyEvent.VK_ESCAPE))
+			System.exit(0);
 
 		for (int i = 0; i < handler.getObjects().size(); i++) {
 			GameObject temp = handler.getObjects().get(i);
