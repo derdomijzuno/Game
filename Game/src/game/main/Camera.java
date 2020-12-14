@@ -10,17 +10,17 @@ public class Camera {
 	}
 
 	public void tick(GameObject temp) {
-		x += ((temp.getPos().getX() - x) - 1280 / 2) * 0.05f;
-		y += ((temp.getPos().getY() - y) - 720 / 2) * 0.05f;
+		x += ((temp.getPos().getX() - x) - Game.WindowWidth / 2) * 0.05f;
+		y += ((temp.getPos().getY() - y) - Game.WindowHeight / 2) * 0.05f;
 
 		if (x <= 0)
 			x = 0;
-		if (x >= 1280)
-			x = 1280;
+		if (x >= Game.WindowWidth)
+			x = Game.WindowWidth;
 		if (y <= 0)
 			y = 0;
-		if (y >= 720)
-			y = 720;
+		if (y >= Game.WindowHeight)
+			y = Game.WindowHeight;
 	}
 
 	public float getX() {

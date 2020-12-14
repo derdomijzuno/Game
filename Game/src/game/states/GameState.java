@@ -50,10 +50,10 @@ public class GameState extends State {
 			}
 		}
 
-		handler.addObject(new Player(new Position(6 * Game.tileSize, 1 * Game.tileSize),
+		handler.addObject(new Player(new Position(10 * Game.tileSize, 1 * Game.tileSize),
 				new Size(Game.tileSize, Game.tileSize), ID.Player, new PlayerController(handler), handler));
 
-		handler.addObject(new Enemy(new Position(20 * Game.tileSize, 11 * Game.tileSize),
+		handler.addObject(new Enemy(new Position(12 * Game.tileSize, 1 * Game.tileSize),
 				new Size(Game.tileSize, Game.tileSize), ID.Enemy));
 
 	}

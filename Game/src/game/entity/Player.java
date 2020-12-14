@@ -19,13 +19,15 @@ public class Player extends MovingEntity {
 	Handler handler;
 	List<Position> path;
 
+	String debug;
+
 	public Player(Position pos, Size size, ID id, Controller controller, Handler handler) {
 		super(pos, size, id, controller);
 		this.handler = handler;
+		debug = " .";
 	}
 
 	private void pathfinding(Position target) {
-		Position gridPos = pos.ofGridPosition(pos.intX() / Game.tileSize, pos.intY() / Game.tileSize);
 		path = Pathfinder.findPath(pos, target, GameState.map);
 	}
 
@@ -41,6 +43,11 @@ public class Player extends MovingEntity {
 						Game.tileSize);
 			}
 		}
+
+		if (!handler.isDebug()) {
+			g.setColor(Color.WHITE);
+			g.drawString(debug, 350, 50);
+		}
 	}
 
 	@Override
@@ -53,8 +60,17 @@ public class Player extends MovingEntity {
 				GameObject temp = handler.getObjects().get(i);
 				if (temp.getId() == ID.Enemy) {
 					if (path == null)
-						pathfinding(new Position(temp.getPos().gridX() * Game.tileSize,
-								temp.getPos().gridY() * Game.tileSize));
+//						pathfinding(new Position(temp.getPos().gridX() * Game.tileSize,
+//								temp.getPos().gridY() * Game.tileSize));
+//						pathfinding(temp.getPos());
+						debug = "E X: " + temp.getPos().getX() + " | E Y:" + temp.getPos().getY() + " | P X:"
+								+ pos.getX() + " | P Y:" + pos.getY();
+
+					pathfinding(new Position(temp.getPos().getX(), temp.getPos().getY()));
+
+					debug += "		E X: " + temp.getPos().getX() + " | E Y:" + temp.getPos().getY() + " | P X:"
+							+ pos.getX() + " | P Y:" + pos.getY();
+					
 				}
 			}
 		}
