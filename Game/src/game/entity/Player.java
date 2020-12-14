@@ -62,7 +62,7 @@ public class Player extends MovingEntity {
 					if (path == null)
 //						pathfinding(new Position(temp.getPos().gridX() * Game.tileSize,
 //								temp.getPos().gridY() * Game.tileSize));
-//						pathfinding(temp.getPos());
+						pathfinding(temp.getPos());
 						debug = "E X: " + temp.getPos().getX() + " | E Y:" + temp.getPos().getY() + " | P X:"
 								+ pos.getX() + " | P Y:" + pos.getY();
 
