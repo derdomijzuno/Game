@@ -12,7 +12,7 @@ public class Motion {
 		this.vector = new Vector2D(0, 0);
 	}
 
-	public void update(Controller controller) {
+	public void update(Controller controller, double speed) {
 		int velX = 0;
 		int velY = 0;
 
@@ -32,6 +32,10 @@ public class Motion {
 
 	public Vector2D getVector() {
 		return vector;
+	}
+	
+	public boolean isMoving() {
+		return vector.length() > 0;
 	}
 
 }

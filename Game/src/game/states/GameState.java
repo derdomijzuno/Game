@@ -3,7 +3,6 @@ package game.states;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import game.controller.PlayerController;
@@ -14,6 +13,7 @@ import game.entity.ID;
 import game.entity.Obstacle;
 import game.entity.Player;
 import game.gfx.BufferedImageLoader;
+import game.gfx.SpriteLibrary;
 import game.main.Camera;
 import game.main.Game;
 import game.main.Handler;
@@ -25,6 +25,7 @@ public class GameState extends State {
 	public static GameMap map;
 
 	BufferedImage level;
+	private SpriteLibrary spriteLibrary;
 
 	public GameState(Handler handler) {
 		super(handler);
@@ -32,11 +33,12 @@ public class GameState extends State {
 
 	public void init() {
 		camera = new Camera(0, 0);
-		BufferedImageLoader loader = new BufferedImageLoader();
 
-		level = loader.loadImage("/test.png/");
+		level = BufferedImageLoader.loadImage("/aStar.png/");
 		map = new GameMap(level);
 
+		spriteLibrary = new SpriteLibrary();
+		
 		loadMap(map);
 	}
 
@@ -45,16 +47,16 @@ public class GameState extends State {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
 				if (!map.getTiles()[x][y].isWalkable()) {
 					handler.addObject(new Obstacle(new Position(x * Game.tileSize, y * Game.tileSize),
-							new Size(Game.tileSize, Game.tileSize), ID.Enemy));
+							new Size(Game.tileSize, Game.tileSize), ID.Obstacle));
 				}
 			}
 		}
 
 		handler.addObject(new Player(new Position(10 * Game.tileSize, 1 * Game.tileSize),
-				new Size(Game.tileSize, Game.tileSize), ID.Player, new PlayerController(handler), handler));
+				new Size(Game.tileSize, Game.tileSize), ID.Player, new PlayerController(handler), handler, spriteLibrary));
 
-		handler.addObject(new Enemy(new Position(12 * Game.tileSize, 1 * Game.tileSize),
-				new Size(Game.tileSize, Game.tileSize), ID.Enemy));
+		handler.addObject(new Enemy(new Position(20 * Game.tileSize, 1 * Game.tileSize),
+				new Size(Game.tileSize, Game.tileSize), ID.Enemy, handler, spriteLibrary));
 
 	}
 
@@ -81,23 +83,25 @@ public class GameState extends State {
 		g2d.translate(-camera.getX(), -camera.getY());
 
 		handler.render(g);
-		
-		if(handler.isDebug()) {
+
+		if (handler.isDebug() && handler.isShowTiles()) {
+
+			g.setColor(Color.RED);
 			for (int x = 0; x < map.getTiles().length; x++) {
-				g.drawLine(x * Game.tileSize, 0, x * Game.tileSize, Game.WindowHeight);
+				g.drawLine(x * Game.tileSize, 0, x * Game.tileSize, map.getTiles()[0].length * Game.tileSize);
 			}
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				g.drawLine(0, y * Game.tileSize, Game.WindowWidth, y * Game.tileSize);
+				g.drawLine(0, y * Game.tileSize, map.getTiles().length * Game.tileSize, y * Game.tileSize);
 			}
 		}
 
 		g2d.translate(camera.getX(), camera.getY());
 
 		if (handler.isDebug()) {
-			g.setColor(Color.RED);
+//			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
 			g.drawString(mousePos, 50, 50);
-			
+
 		}
 
 	}

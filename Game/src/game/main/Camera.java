@@ -1,5 +1,8 @@
 package game.main;
 
+import game.entity.GameObject;
+import game.states.GameState;
+
 public class Camera {
 
 	private float x, y;
@@ -15,12 +18,12 @@ public class Camera {
 
 		if (x <= 0)
 			x = 0;
-		if (x >= Game.WindowWidth)
-			x = Game.WindowWidth;
+		if (x >= GameState.map.getTiles().length * Game.tileSize - Game.WindowWidth)
+			x = GameState.map.getTiles().length * Game.tileSize - Game.WindowWidth;
 		if (y <= 0)
 			y = 0;
-		if (y >= Game.WindowHeight)
-			y = Game.WindowHeight;
+		if (y >= GameState.map.getTiles()[0].length * Game.tileSize - Game.WindowHeight)
+			y = GameState.map.getTiles()[0].length * Game.tileSize - Game.WindowHeight;
 	}
 
 	public float getX() {

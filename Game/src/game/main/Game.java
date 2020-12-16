@@ -19,19 +19,19 @@ public class Game extends Canvas implements Runnable {
 	GameState game;
 	Menu menu;
 	public static StateID gs;
-	
-	public static final int tileSize = 20;
+
+	public static final int tileSize = 64;
 	public static final int WindowWidth = 1280;
 	public static final int WindowHeight = 720;
 
 	private void init() {
 
 		handler = new Handler();
-		
+
 		menu = new Menu(handler);
 		game = new GameState(handler);
 		game.init();
-		
+
 		gs = StateID.Menu;
 
 		new Window(this, WindowWidth, WindowHeight);
@@ -61,7 +61,7 @@ public class Game extends Canvas implements Runnable {
 			game.render(g);
 		if (gs == StateID.Menu)
 			menu.render(g);
-		
+
 		// STOP RENDERING
 
 		g.dispose();
@@ -126,9 +126,9 @@ public class Game extends Canvas implements Runnable {
 				tick();
 				updates++;
 				delta--;
-				render();
-				frames++;
 			}
+			render();
+			frames++;
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;

@@ -3,11 +3,13 @@ package game.main;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import game.entity.GameObject;
+
 public class Handler {
 
 	LinkedList<GameObject> objects = new LinkedList<GameObject>();
 	private boolean[] keys = new boolean[255];
-	private boolean debug = true;
+	private boolean debug = true, showTiles = true;
 
 	private int mx, my;
 
@@ -69,6 +71,14 @@ public class Handler {
 	
 	public void setKey(boolean pressed, int keyCode) {
 		keys[keyCode] = pressed;
+	}
+
+	public boolean isShowTiles() {
+		return showTiles;
+	}
+
+	public void setShowTiles(boolean showTiles) {
+		this.showTiles = showTiles;
 	}
 
 }

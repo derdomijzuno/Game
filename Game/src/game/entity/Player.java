@@ -2,14 +2,18 @@ package game.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import game.controller.Controller;
+import game.core.CollisionBox;
 import game.core.Position;
 import game.core.Size;
+import game.gfx.BufferedImageLoader;
+import game.gfx.SpriteLibrary;
 import game.main.Game;
-import game.main.GameObject;
 import game.main.Handler;
 import game.map.Pathfinder;
 import game.states.GameState;
@@ -17,67 +21,41 @@ import game.states.GameState;
 public class Player extends MovingEntity {
 
 	Handler handler;
-	List<Position> path;
-
 	String debug;
 
-	public Player(Position pos, Size size, ID id, Controller controller, Handler handler) {
-		super(pos, size, id, controller);
+	public Player(Position pos, Size size, ID id, Controller controller, Handler handler, SpriteLibrary spriteLibrary) {
+		super(pos, size, id, controller, spriteLibrary);
 		this.handler = handler;
 		debug = " .";
-	}
-
-	private void pathfinding(Position target) {
-		path = Pathfinder.findPath(pos, target, GameState.map);
+		setSpeed(5);
 	}
 
 	@Override
-	protected void render(Graphics g) {
+	public void render(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillRect(pos.intX(), pos.intY(), size.getWidth(), size.getHeight());
+		g.drawImage(getSprite(), pos.intX(), pos.intY(), size.getWidth(), size.getHeight(), null);
+//		g.fillRect(pos.intX(), pos.intY(), size.getWidth(), size.getHeight());
 
-		if (path != null) {
-			for (int i = 0; i < path.size(); i++) {
-				g.setColor(Color.CYAN);
-				g.fillRect(path.get(i).gridX() * Game.tileSize, path.get(i).gridY() * Game.tileSize, Game.tileSize,
-						Game.tileSize);
-			}
-		}
-
-		if (!handler.isDebug()) {
-			g.setColor(Color.WHITE);
-			g.drawString(debug, 350, 50);
+		if (handler.isDebug()) {
+			g.setColor(Color.GREEN);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.draw(getHitBox().getBounds());
 		}
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		checkBounds();
-
-		if (handler.isKeyPressed(KeyEvent.VK_B)) {
-			for (int i = 0; i < handler.getObjects().size(); i++) {
-				GameObject temp = handler.getObjects().get(i);
-				if (temp.getId() == ID.Enemy) {
-					if (path == null)
-//						pathfinding(new Position(temp.getPos().gridX() * Game.tileSize,
-//								temp.getPos().gridY() * Game.tileSize));
-						pathfinding(temp.getPos());
-						debug = "E X: " + temp.getPos().getX() + " | E Y:" + temp.getPos().getY() + " | P X:"
-								+ pos.getX() + " | P Y:" + pos.getY();
-
-					pathfinding(new Position(temp.getPos().getX(), temp.getPos().getY()));
-
-					debug += "		E X: " + temp.getPos().getX() + " | E Y:" + temp.getPos().getY() + " | P X:"
-							+ pos.getX() + " | P Y:" + pos.getY();
-					
-				}
-			}
-		}
+		handleCollisions();
 
 	}
 
-	private void checkBounds() {
+	@Override
+	protected void handleCollisions() {
+		checkWorldBounds();
+	}
+
+	private void checkWorldBounds() {
 
 		if (pos.getX() + size.getWidth() > GameState.map.getTiles().length * Game.tileSize) {
 			pos.setX(GameState.map.getTiles().length * Game.tileSize - size.getWidth());
@@ -92,6 +70,11 @@ public class Player extends MovingEntity {
 			pos.setY(0);
 		}
 
+	}
+
+	@Override
+	public CollisionBox getHitBox() {
+		return new CollisionBox(new Rectangle(pos.intX(), pos.intY(), size.getWidth(), size.getHeight()));
 	}
 
 }
