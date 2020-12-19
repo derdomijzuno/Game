@@ -4,59 +4,63 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import game.main.Camera;
 import game.main.Game;
 import game.main.Handler;
-import game.states.StateID;
 import game.states.Menu;
+import game.states.StateID;
 import game.ui.ButtonCollision;
 
 public class MouseInput implements MouseListener, MouseMotionListener {
 
 	private Handler handler;
+	private Camera cam;
 	int mx;
 	int my;
 
-	ButtonCollision bc = new ButtonCollision();
+	
 
-	public MouseInput(Handler handler) {
+	public MouseInput(Handler handler, Camera cam) {
 		this.handler = handler;
+		this.cam = cam;
 	}
 
 	public void mousePressed(MouseEvent e) {
-		mx = (int) e.getX();
-		my = (int) e.getY();
+		if (Game.gs == StateID.Game) {
+			mx = (int) e.getX() + (int)cam.getX();
+			my = (int) e.getY() + (int)cam.getY();
+		} else {
+			mx = (int) e.getX();
+			my = (int) e.getY();
+		}
 
 		System.out.println("MX: " + mx + " | MY: " + my);
 
-		if (Game.gs == StateID.Menu) {
-			if (bc.inside(e.getX(), e.getY(), Menu.btn1)) {
-				Menu.btn1.setActive(true);
-			} else {
-				Menu.btn1.setActive(false);
-			}
-		}
+		
+		
+		handler.setMousePressed(true, e.getButton());
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mx = (int) e.getX();
-		my = (int) e.getY();
+		if (Game.gs == StateID.Game) {
+			mx = (int) e.getX() + (int)cam.getX();
+			my = (int) e.getY() + (int)cam.getY();
+		} else {
+			mx = (int) e.getX();
+			my = (int) e.getY();
+		}
 
 		handler.setMx(mx);
 		handler.setMy(my);
 
-		if (Game.gs == StateID.Menu) {
-			if (bc.inside(e.getX(), e.getY(), Menu.btn1)) {
-				Menu.btn1.setHover(true);
-			} else {
-				Menu.btn1.setHover(false);
-			}
-		}
+		
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		handler.setMousePressed(false, e.getButton());
 	}
 
 }

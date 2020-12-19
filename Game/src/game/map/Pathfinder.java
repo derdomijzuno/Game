@@ -1,11 +1,6 @@
 package game.map;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.*;
 
 import game.core.Position;
 
@@ -20,7 +15,7 @@ public class Pathfinder {
 		for (int x = 0; x < nodeMap.length; x++) {
 			for (int y = 0; y < nodeMap[0].length; y++) {
 				int heuristic = Math.abs(x - target.gridX() + Math.abs(y - target.gridY()));
-				Node node = new Node(10, heuristic, x, y);
+				Node node = new Node(map.getTile(x,y).getMoveCost(), heuristic, x, y);
 
 				if (!map.getTiles()[x][y].isWalkable()) {
 					closed.add(node);
@@ -53,7 +48,7 @@ public class Pathfinder {
 								|| neighbor.gridX == current.gridX + 1 && neighbor.gridY == current.gridY - 1
 								|| neighbor.gridX == current.gridX - 1 && neighbor.gridY == current.gridY + 1
 								|| neighbor.gridX == current.gridX + 1 && neighbor.gridY == current.gridY - 1) {
-							neighbor.moveCost = 14;
+							continue;
 						}
 
 						if (closed.contains(neighbor)) {

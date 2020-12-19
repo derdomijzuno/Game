@@ -16,27 +16,29 @@ public class Game extends Canvas implements Runnable {
 	// Initialization
 
 	Handler handler;
+	Camera cam;
 	GameState game;
 	Menu menu;
 	public static StateID gs;
 
 	public static final int tileSize = 64;
-	public static final int WindowWidth = 1280;
-	public static final int WindowHeight = 720;
+	public static final int WindowWidth = 1920;		
+	public static final int WindowHeight = 1080;
 
 	private void init() {
 
 		handler = new Handler();
+		cam = new Camera(0,0);
 
 		menu = new Menu(handler);
-		game = new GameState(handler);
+		game = new GameState(handler, cam);
 		game.init();
 
 		gs = StateID.Menu;
 
 		new Window(this, WindowWidth, WindowHeight);
 
-		MouseInput mi = new MouseInput(handler);
+		MouseInput mi = new MouseInput(handler, cam);
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(mi);
 		this.addMouseMotionListener(mi);

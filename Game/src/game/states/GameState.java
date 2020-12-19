@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
 
 import game.controller.PlayerController;
 import game.core.Position;
@@ -17,6 +18,7 @@ import game.gfx.SpriteLibrary;
 import game.main.Camera;
 import game.main.Game;
 import game.main.Handler;
+import game.main.Time;
 import game.map.GameMap;
 
 public class GameState extends State {
@@ -24,46 +26,52 @@ public class GameState extends State {
 	Camera camera;
 	public static GameMap map;
 
+	public static Time time;
+
 	BufferedImage level;
 	private SpriteLibrary spriteLibrary;
 
-	public GameState(Handler handler) {
+	public GameState(Handler handler, Camera cam) {
 		super(handler);
+		this.camera = cam;
 	}
 
 	public void init() {
-		camera = new Camera(0, 0);
 
-		level = BufferedImageLoader.loadImage("/aStar.png/");
-		map = new GameMap(level);
+		time = new Time();
 
+		level = BufferedImageLoader.loadImage("/level.png/");
 		spriteLibrary = new SpriteLibrary();
-		
+		map = new GameMap(level, spriteLibrary);
+
 		loadMap(map);
 	}
 
 	private void loadMap(GameMap map) {
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				if (!map.getTiles()[x][y].isWalkable()) {
+				if (map.getTile(x, y).getTileName() == "wall") {
 					handler.addObject(new Obstacle(new Position(x * Game.tileSize, y * Game.tileSize),
 							new Size(Game.tileSize, Game.tileSize), ID.Obstacle));
 				}
 			}
 		}
 
-		handler.addObject(new Player(new Position(10 * Game.tileSize, 1 * Game.tileSize),
-				new Size(Game.tileSize, Game.tileSize), ID.Player, new PlayerController(handler), handler, spriteLibrary));
+		handler.addObject(
+				new Player(new Position(0 * Game.tileSize, 0 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
+						ID.Player, new PlayerController(handler), handler, spriteLibrary));
 
-		handler.addObject(new Enemy(new Position(20 * Game.tileSize, 1 * Game.tileSize),
+		handler.addObject(new Enemy(new Position(14 * Game.tileSize, 2 * Game.tileSize),
 				new Size(Game.tileSize, Game.tileSize), ID.Enemy, handler, spriteLibrary));
 
 	}
 
 	@Override
 	public void tick() {
+		sortObjectsByPosition();
+
 		for (int i = 0; i < handler.getObjects().size(); i++) {
-			if (handler.getObjects().get(i).getId() == ID.Player) {
+			if (handler.getObjects().get(i).getId() == ID.Enemy) {
 				camera.tick(handler.getObjects().get(i));
 			}
 		}
@@ -82,6 +90,7 @@ public class GameState extends State {
 
 		g2d.translate(-camera.getX(), -camera.getY());
 
+		renderMap(map, g);
 		handler.render(g);
 
 		if (handler.isDebug() && handler.isShowTiles()) {
@@ -104,6 +113,20 @@ public class GameState extends State {
 
 		}
 
+	}
+
+	private void renderMap(GameMap map, Graphics g) {
+		for (int x = 0; x < map.getTiles().length; x++) {
+			for (int y = 0; y < map.getTiles()[0].length; y++) {
+				if (map.getTile(x, y).getTileName() == "dirt") {
+					g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
+				}
+			}
+		}
+	}
+
+	private void sortObjectsByPosition() {
+		handler.getObjects().sort(Comparator.comparing(gameObject -> gameObject.getPos().getY()));
 	}
 
 }

@@ -2,11 +2,17 @@ package game.map;
 
 import java.awt.image.BufferedImage;
 
+import game.core.Position;
+import game.gfx.SpriteLibrary;
+import game.main.Game;
+
 public class GameMap {
 
 	private Tile[][] map;
+	private SpriteLibrary spriteLibrary;
 
-	public GameMap(BufferedImage image) {
+	public GameMap(BufferedImage image, SpriteLibrary spriteLibrary) {
+		this.spriteLibrary = spriteLibrary;
 		map = new Tile[image.getWidth()][image.getHeight()];
 		initializeTiles(image);
 	}
@@ -20,29 +26,38 @@ public class GameMap {
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 
-				if (red == 0 && green == 0 && blue == 255) {
-					map[x][y] = new Tile(x, y, true);
-				}
-				if (red == 255 && green == 0 && blue == 0) {
-					map[x][y] = new Tile(x, y, true);
-				}
 				if (red == 0 && green == 0 && blue == 0) {
-					map[x][y] = new Tile(x, y, false);
-				}else {
-					map[x][y] = new Tile(x, y, true);
+					map[x][y] = new Tile(x, y, false, "wall", spriteLibrary);
+				} else if (red == 255 && green == 127 && blue == 39) {
+					map[x][y] = new Tile(x, y, true, "dirt", spriteLibrary);
+				} else {
+					map[x][y] = new Tile(x, y, true, "normal", spriteLibrary);
 				}
 			}
 		}
 
 	}
-	
+
 	public boolean gridWithinBounds(int gridX, int gridY) {
-        return gridX >= 0 && gridX < map.length
-                && gridY >= 0 && gridY < map[0].length;
-    }
+		return gridX >= 0 && gridX < map.length && gridY >= 0 && gridY < map[0].length;
+	}
 
 	public Tile[][] getTiles() {
 		return map;
+	}
+
+	public Position getRandomPosition() {
+//		double x = Math.random() * map.length * Game.tileSize;
+//		double y = Math.random() * map[0].length * Game.tileSize;
+		double x = Game.tileSize * 0;
+		double y = Game.tileSize * 0;
+
+		return new Position(x, y);
+
+	}
+
+	public Tile getTile(int x, int y) {
+		return map[x][y];
 	}
 
 }

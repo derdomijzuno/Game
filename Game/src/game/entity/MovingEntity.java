@@ -12,10 +12,10 @@ import game.gfx.SpriteLibrary;
 
 public abstract class MovingEntity extends GameObject {
 
-	private Controller controller;
-	private Motion motion;
-	private AnimationManager animationManager;
-	private Direction direction;
+	protected Controller controller;
+	protected Motion motion;
+	protected AnimationManager animationManager;
+	protected Direction direction;
 
 	protected double speed;
 
@@ -24,7 +24,6 @@ public abstract class MovingEntity extends GameObject {
 		this.controller = controller;
 		this.motion = new Motion(speed);
 		this.direction = Direction.S;
-		animationManager = new AnimationManager(spriteLibrary.getUnit("dave"));
 	}
 
 	protected abstract void handleCollisions();
@@ -64,5 +63,11 @@ public abstract class MovingEntity extends GameObject {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
+
+	public Controller getController() {
+		return controller;
+	}
+	
+	
 
 }

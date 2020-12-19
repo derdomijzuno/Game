@@ -4,18 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.List;
+import java.awt.event.KeyEvent;
 
 import game.controller.Controller;
 import game.core.CollisionBox;
 import game.core.Position;
 import game.core.Size;
-import game.gfx.BufferedImageLoader;
+import game.gfx.AnimationManager;
 import game.gfx.SpriteLibrary;
+import game.gfx.particles.TestParticle;
 import game.main.Game;
 import game.main.Handler;
-import game.map.Pathfinder;
 import game.states.GameState;
 
 public class Player extends MovingEntity {
@@ -27,6 +26,8 @@ public class Player extends MovingEntity {
 		super(pos, size, id, controller, spriteLibrary);
 		this.handler = handler;
 		debug = " .";
+
+		this.animationManager = new AnimationManager(spriteLibrary.getUnit("dave"));
 		setSpeed(5);
 	}
 
@@ -34,12 +35,20 @@ public class Player extends MovingEntity {
 	public void render(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.drawImage(getSprite(), pos.intX(), pos.intY(), size.getWidth(), size.getHeight(), null);
-//		g.fillRect(pos.intX(), pos.intY(), size.getWidth(), size.getHeight());
 
 		if (handler.isDebug()) {
 			g.setColor(Color.GREEN);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.draw(getHitBox().getBounds());
+
+			g.setColor(Color.BLUE);
+			g2d.draw(getHitBox().getBoundsTop());
+			g.setColor(Color.CYAN);
+			g2d.draw(getHitBox().getBoundsBottom());
+			g.setColor(Color.RED);
+			g2d.draw(getHitBox().getBoundsLeft());
+			g.setColor(Color.YELLOW);
+			g2d.draw(getHitBox().getBoundsRight());
 		}
 	}
 
@@ -48,11 +57,37 @@ public class Player extends MovingEntity {
 		super.tick();
 		handleCollisions();
 
+		if (handler.isKeyPressed(KeyEvent.VK_P)) {
+			Handler.particles.add(new TestParticle(pos.intX(), pos.intY(), 20, 20));
+		}
+
 	}
 
 	@Override
 	protected void handleCollisions() {
 		checkWorldBounds();
+		WallCollisions();
+
+	}
+
+	private void WallCollisions() {
+		for (GameObject temp : handler.getObjects()) {
+			if (temp instanceof Obstacle) {
+				if (getHitBox().getBoundsTop().intersects(temp.getHitBox().getBounds())) {
+					pos.setY(temp.getPos().getY() + temp.getSize().getHeight());
+				}
+				if (getHitBox().getBoundsBottom().intersects(temp.getHitBox().getBounds())) {
+					pos.setY(temp.getPos().getY() - getSize().getHeight());
+				}
+				if (getHitBox().getBoundsLeft().intersects(temp.getHitBox().getBounds())) {
+					pos.setX(temp.getPos().getX() + temp.getSize().getWidth());
+				}
+				if (getHitBox().getBoundsRight().intersects(temp.getHitBox().getBounds())) {
+					pos.setX(temp.getPos().getX() - temp.getSize().getWidth());
+				}
+			}
+		}
+
 	}
 
 	private void checkWorldBounds() {
