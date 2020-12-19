@@ -6,7 +6,6 @@ public enum ID {
 	Player,
 	Enemy,
 	Obstacle, 
-	Way,
 	
 	
 }
