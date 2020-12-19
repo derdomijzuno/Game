@@ -43,9 +43,6 @@ public class EnemyController implements Controller {
 		double deltaX = target.getX() - current.getX();
 		double deltaY = target.getY() - current.getY();
 
-		System.out.println("targetX: " + target.gridX() + " | targetY: " + target.gridY() + " | deltaX: " + deltaX
-				+ " |deltaY: " + deltaY);
-
 		up = deltaY < 0 && Math.abs(deltaY - 1) > Position.PROXIMITY_RANGE;
 		right = deltaX > 0 && Math.abs(deltaX + 1) > Position.PROXIMITY_RANGE;
 		down = deltaY > 0 && Math.abs(deltaY + 1) > Position.PROXIMITY_RANGE;

@@ -44,7 +44,16 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (Game.gs == StateID.Game) {
+			mx = (int) e.getX() + (int)cam.getX();
+			my = (int) e.getY() + (int)cam.getY();
+		} else {
+			mx = (int) e.getX();
+			my = (int) e.getY();
+		}
 
+		handler.setMx(mx);
+		handler.setMy(my);
 	}
 
 	@Override
@@ -56,6 +65,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 			mx = (int) e.getX();
 			my = (int) e.getY();
 		}
+		
+		System.out.println("test");
 
 		handler.setMx(mx);
 		handler.setMy(my);

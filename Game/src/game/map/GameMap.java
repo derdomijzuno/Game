@@ -47,10 +47,10 @@ public class GameMap {
 	}
 
 	public Position getRandomPosition() {
-//		double x = Math.random() * map.length * Game.tileSize;
-//		double y = Math.random() * map[0].length * Game.tileSize;
-		double x = Game.tileSize * 0;
-		double y = Game.tileSize * 0;
+		double x = Math.random() * map.length * Game.tileSize;
+		double y = Math.random() * map[0].length * Game.tileSize;
+//		double x = Game.tileSize * 1;
+//		double y = Game.tileSize * 4;
 
 		return new Position(x, y);
 

@@ -9,7 +9,7 @@ public class Time {
 	}
 	
 	public int getUpdatesFromSeconds(int seconds) {
-		return seconds * 60;
+		return (int) (seconds * Game.TPS);
 	}
 	
 }

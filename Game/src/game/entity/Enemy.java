@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import game.ai.AIManager;
@@ -24,15 +25,16 @@ public class Enemy extends MovingEntity {
 
 	List<Position> path;
 	Handler handler;
+	Position target;
 
 	AIManager aiManager;
 
-
 	String debug;
+
 	public Enemy(Position pos, Size size, ID id, Handler handler, SpriteLibrary spriteLibrary) {
 		super(pos, size, id, new EnemyController(handler), spriteLibrary);
 		this.handler = handler;
-		setSpeed(10);
+		setSpeed(5);
 
 		aiManager = new AIManager();
 
@@ -77,6 +79,16 @@ public class Enemy extends MovingEntity {
 			Handler.particles.add(new TestParticle(pos.intX(), pos.intY(), 20, 20));
 		}
 
+//		if (aiManager.getTarget() != null) {
+			if (handler.isMousePressed(MouseEvent.BUTTON1) && handler.isKeyPressed(KeyEvent.VK_SPACE)) {
+				setTarget(new Position(handler.getMx(), handler.getMy()));
+			}
+//		}
+		if (target != null && aiManager.getTarget() == null) {
+			aiManager.setTarget(target);
+		}
+		
+
 	}
 
 	private void WallCollisions() {
@@ -119,6 +131,10 @@ public class Enemy extends MovingEntity {
 			pos.setY(0);
 		}
 
+	}
+
+	public void setTarget(Position target) {
+		this.target = target;
 	}
 
 	@Override

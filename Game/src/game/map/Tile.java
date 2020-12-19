@@ -65,7 +65,7 @@ public class Tile {
 			moveCost = 25;
 			break;
 		default:
-			moveCost = 1000;
+			moveCost = 500;
 		}
 		;
 		return moveCost;

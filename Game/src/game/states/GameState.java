@@ -1,9 +1,15 @@
 package game.states;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Comparator;
 
 import game.controller.PlayerController;
@@ -15,6 +21,7 @@ import game.entity.Obstacle;
 import game.entity.Player;
 import game.gfx.BufferedImageLoader;
 import game.gfx.SpriteLibrary;
+import game.gfx.particles.TextParticle;
 import game.main.Camera;
 import game.main.Game;
 import game.main.Handler;
@@ -28,6 +35,9 @@ public class GameState extends State {
 
 	public static Time time;
 
+	Font f = new Font("Comic Sans", Font.PLAIN, 28);
+	Font pixelMplus;
+
 	BufferedImage level;
 	private SpriteLibrary spriteLibrary;
 
@@ -40,11 +50,19 @@ public class GameState extends State {
 
 		time = new Time();
 
-		level = BufferedImageLoader.loadImage("/level.png/");
+		level = BufferedImageLoader.loadImage("/level2.png/");
 		spriteLibrary = new SpriteLibrary();
 		map = new GameMap(level, spriteLibrary);
 
 		loadMap(map);
+
+		try {
+			pixelMplus = Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")));
+		} catch (IOException | FontFormatException e) {
+			System.out.println(e);
+		}
 	}
 
 	private void loadMap(GameMap map) {
@@ -58,7 +76,7 @@ public class GameState extends State {
 		}
 
 		handler.addObject(
-				new Player(new Position(0 * Game.tileSize, 0 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
+				new Player(new Position(1 * Game.tileSize, 1 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
 						ID.Player, new PlayerController(handler), handler, spriteLibrary));
 
 		handler.addObject(new Enemy(new Position(14 * Game.tileSize, 2 * Game.tileSize),
@@ -71,9 +89,13 @@ public class GameState extends State {
 		sortObjectsByPosition();
 
 		for (int i = 0; i < handler.getObjects().size(); i++) {
-			if (handler.getObjects().get(i).getId() == ID.Enemy) {
+			if (handler.getObjects().get(i).getId() == ID.Player) {
 				camera.tick(handler.getObjects().get(i));
 			}
+		}
+		
+		if(handler.isMousePressed(MouseEvent.BUTTON1)) {
+			Handler.particles.add(new TextParticle("Deine Mudda", handler.getMx(),handler.getMy(),200,200));
 		}
 
 		handler.tick();
@@ -85,6 +107,8 @@ public class GameState extends State {
 
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, Game.WindowWidth, Game.WindowHeight);
+
+		g.setFont(pixelMplus);
 
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -107,9 +131,13 @@ public class GameState extends State {
 		g2d.translate(camera.getX(), camera.getY());
 
 		if (handler.isDebug()) {
-//			g.setColor(Color.RED);
+			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
 			g.drawString(mousePos, 50, 50);
+
+			String mouseGridPos = "MX: " + handler.getMx() / Game.tileSize + " | MY: "
+					+ handler.getMy() / Game.tileSize;
+			g.drawString(mouseGridPos, handler.getMx() - 20, handler.getMy() - 20);
 
 		}
 

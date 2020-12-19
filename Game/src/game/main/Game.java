@@ -24,6 +24,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int tileSize = 64;
 	public static final int WindowWidth = 1920;		
 	public static final int WindowHeight = 1080;
+	public static double TPS = 60;
 
 	private void init() {
 
@@ -114,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 		init();
 		this.requestFocus();
 		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
+		double amountOfTicks = TPS;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
