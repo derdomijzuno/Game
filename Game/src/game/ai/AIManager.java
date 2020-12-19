@@ -47,7 +47,7 @@ public class AIManager {
 		this.target = target;
 		transitionTo("walkToTarget");
 	}
-	
+
 	public Position getTarget() {
 		return target;
 	}

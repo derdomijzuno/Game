@@ -18,22 +18,22 @@ public abstract class Particle {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		
+
 		random = new Random();
-		
+
 		int zahl1 = random.nextInt(2);
-		
-		if(zahl1 == 1) {
+
+		if (zahl1 == 1) {
 			int zahl2 = random.nextInt(4);
 			this.velX = zahl2;
-		}else if(zahl1 == 0){
+		} else if (zahl1 == 0) {
 			int zahl2 = random.nextInt(4);
 			this.velX = -zahl2;
 		}
-		
+
 		int zahl3 = random.nextInt(4);
 		this.velY = -zahl3;
-		
+
 	}
 
 	public abstract void tick();

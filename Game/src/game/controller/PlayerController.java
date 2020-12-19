@@ -4,14 +4,14 @@ import java.awt.event.KeyEvent;
 
 import game.main.Handler;
 
-public class PlayerController implements Controller{
+public class PlayerController implements Controller {
 
 	Handler handler;
-	
+
 	public PlayerController(Handler handler) {
-		this.handler=handler;
+		this.handler = handler;
 	}
-	
+
 	@Override
 	public boolean isRequestingUp() {
 		return handler.isKeyPressed(KeyEvent.VK_W);

@@ -22,14 +22,14 @@ public class Game extends Canvas implements Runnable {
 	public static StateID gs;
 
 	public static final int tileSize = 64;
-	public static final int WindowWidth = 1920;		
+	public static final int WindowWidth = 1920;
 	public static final int WindowHeight = 1080;
 	public static double TPS = 60;
 
 	private void init() {
 
 		handler = new Handler();
-		cam = new Camera(0,0);
+		cam = new Camera(0, 0);
 
 		menu = new Menu(handler);
 		game = new GameState(handler, cam);

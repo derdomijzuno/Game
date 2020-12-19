@@ -33,7 +33,7 @@ public class Motion {
 	public Vector2D getVector() {
 		return vector;
 	}
-	
+
 	public boolean isMoving() {
 		return vector.length() > 0;
 	}

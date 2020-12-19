@@ -31,7 +31,7 @@ public class WalkToTarget extends AIState {
 	public void tick(Enemy currentCharacter) {
 		if (target == null) {
 			List<Position> path = Pathfinder.findPath(currentCharacter.getPos(), givenTarget, GameState.map);
-			if (!path.isEmpty()) { 
+			if (!path.isEmpty()) {
 				target = path.get(path.size() - 1);
 				this.path.addAll(path);
 			}

@@ -82,15 +82,15 @@ public class Handler {
 	public void setKey(boolean pressed, int keyCode) {
 		keys[keyCode] = pressed;
 	}
-	
+
 	public boolean isMousePressed(int button) {
 		return mousePressed[button];
 	}
-	
+
 	public void setMousePressed(boolean pressed, int button) {
 		mousePressed[button] = pressed;
 	}
-	
+
 	public boolean isShowTiles() {
 		return showTiles;
 	}

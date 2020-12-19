@@ -2,8 +2,8 @@ package game.core;
 
 public class Size {
 
-	private int width,height;
-	
+	private int width, height;
+
 	public Size(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -24,7 +24,5 @@ public class Size {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
-	
 
 }

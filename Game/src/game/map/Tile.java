@@ -10,7 +10,6 @@ public class Tile {
 	private boolean isWalkable;
 	private String tileName;
 	private BufferedImage sprite;
-	
 
 	public Tile(int x, int y, boolean isWalkable, String tileName, SpriteLibrary spriteLibrary) {
 		this.x = x;
@@ -19,7 +18,7 @@ public class Tile {
 		this.tileName = tileName;
 		this.sprite = spriteLibrary.getTile(tileName);
 	}
-	
+
 	public BufferedImage getSprite() {
 		return sprite;
 	}
@@ -67,7 +66,7 @@ public class Tile {
 		default:
 			moveCost = 500;
 		}
-		
+
 		;
 		return moveCost;
 	}

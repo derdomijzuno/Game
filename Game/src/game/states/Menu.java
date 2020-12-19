@@ -13,6 +13,7 @@ public class Menu extends State {
 
 	Button btn1;
 	ButtonCollision bc = new ButtonCollision();
+
 	public Menu(Handler handler) {
 		super(handler);
 
@@ -36,7 +37,7 @@ public class Menu extends State {
 				btn1.setActive(false);
 			}
 		}
-		
+
 		if (btn1.isActive()) {
 			Game.gs = StateID.Game;
 			btn1.setActive(false);

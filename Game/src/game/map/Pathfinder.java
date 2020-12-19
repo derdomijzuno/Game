@@ -15,7 +15,7 @@ public class Pathfinder {
 		for (int x = 0; x < nodeMap.length; x++) {
 			for (int y = 0; y < nodeMap[0].length; y++) {
 				int heuristic = Math.abs(x - target.gridX() + Math.abs(y - target.gridY()));
-				Node node = new Node(map.getTile(x,y).getMoveCost(), heuristic, x, y);
+				Node node = new Node(map.getTile(x, y).getMoveCost(), heuristic, x, y);
 
 				if (!map.getTiles()[x][y].isWalkable()) {
 					closed.add(node);

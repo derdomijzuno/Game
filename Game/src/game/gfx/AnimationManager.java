@@ -24,23 +24,24 @@ public class AnimationManager {
 	}
 
 	public BufferedImage getSprite() {
-		return currentAnimationSheet.getSubimage(frameIndex * Game.tileSize, directionIndex * Game.tileSize, Game.tileSize, Game.tileSize);
+		return currentAnimationSheet.getSubimage(frameIndex * Game.tileSize, directionIndex * Game.tileSize,
+				Game.tileSize, Game.tileSize);
 	}
-	
+
 	public void update(Direction direction) {
 		currentFrameTime++;
 		directionIndex = direction.getAnimationRow();
-		
-		if(currentFrameTime >= updatesPerFrame) {
+
+		if (currentFrameTime >= updatesPerFrame) {
 			currentFrameTime = 0;
 			frameIndex++;
-			
-			if(frameIndex >= currentAnimationSheet.getWidth() / Game.tileSize) {
+
+			if (frameIndex >= currentAnimationSheet.getWidth() / Game.tileSize) {
 				frameIndex = 0;
 			}
 		}
 	}
-	
+
 	public void playAnimation(String name) {
 		this.currentAnimationSheet = spriteSet.get(name);
 	}

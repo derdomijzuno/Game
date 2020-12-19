@@ -93,9 +93,9 @@ public class GameState extends State {
 				camera.tick(handler.getObjects().get(i));
 			}
 		}
-		
-		if(handler.isMousePressed(MouseEvent.BUTTON1)) {
-			Handler.particles.add(new TextParticle("Deine Mudda", handler.getMx(),handler.getMy(),200,200));
+
+		if (handler.isMousePressed(MouseEvent.BUTTON1)) {
+			Handler.particles.add(new TextParticle("Deine Mudda", handler.getMx(), handler.getMy(), 200, 200));
 		}
 
 		handler.tick();

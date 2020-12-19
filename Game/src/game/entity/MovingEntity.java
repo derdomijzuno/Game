@@ -36,11 +36,11 @@ public abstract class MovingEntity extends GameObject {
 		decideAnimation();
 		animationManager.update(direction);
 	}
-	
+
 	private void decideAnimation() {
-		if(motion.isMoving()) {
+		if (motion.isMoving()) {
 			animationManager.playAnimation("walk");
-		}else {
+		} else {
 			animationManager.playAnimation("stand");
 		}
 	}
@@ -67,7 +67,5 @@ public abstract class MovingEntity extends GameObject {
 	public Controller getController() {
 		return controller;
 	}
-	
-	
 
 }

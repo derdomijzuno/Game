@@ -18,9 +18,9 @@ public class TestParticle extends Particle {
 	public void tick() {
 		x += velX;
 		y += velY;
-		
+
 		alpha -= 0.02f;
-		if(alpha <= 0) {
+		if (alpha <= 0) {
 			Handler.particles.remove(this);
 		}
 	}
@@ -29,13 +29,13 @@ public class TestParticle extends Particle {
 	public void render(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
-		
+
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
 		g.setColor(Color.YELLOW);
 		g.fillOval(x, y, width, height);
-		
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1)); 
+
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 	}
 
 }

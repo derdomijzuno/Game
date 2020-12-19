@@ -20,7 +20,7 @@ public class KeyInput extends KeyAdapter {
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		
+
 		handler.setKey(true, e.getKeyCode());
 
 //		if (key == KeyEvent.VK_ESCAPE) {
@@ -50,8 +50,7 @@ public class KeyInput extends KeyAdapter {
 
 		for (int i = 0; i < handler.getObjects().size(); i++) {
 			GameObject temp = handler.getObjects().get(i);
-			
-			
+
 		}
 	}
 

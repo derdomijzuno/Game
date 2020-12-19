@@ -80,14 +80,13 @@ public class Enemy extends MovingEntity {
 		}
 
 //		if (aiManager.getTarget() != null) {
-			if (handler.isMousePressed(MouseEvent.BUTTON1) && handler.isKeyPressed(KeyEvent.VK_SPACE)) {
-				setTarget(new Position(handler.getMx(), handler.getMy()));
-			}
+		if (handler.isMousePressed(MouseEvent.BUTTON1) && handler.isKeyPressed(KeyEvent.VK_SPACE)) {
+			setTarget(new Position(handler.getMx(), handler.getMy()));
+		}
 //		}
 		if (target != null && aiManager.getTarget() == null) {
 			aiManager.setTarget(target);
 		}
-		
 
 	}
 

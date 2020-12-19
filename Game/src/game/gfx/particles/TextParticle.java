@@ -37,7 +37,7 @@ public class TextParticle extends Particle {
 
 		g.setColor(Color.WHITE);
 		g.drawString(text, x, y);
-		
+
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 	}
 

@@ -10,7 +10,8 @@ public class Stand extends AIState {
 
 	@Override
 	protected AITransition initializeTransition() {
-		return new AITransition("wander", (currentCharacter) -> updatesAlive >= GameState.time.getUpdatesFromSeconds(3));
+		return new AITransition("wander",
+				(currentCharacter) -> updatesAlive >= GameState.time.getUpdatesFromSeconds(3));
 	}
 
 	@Override

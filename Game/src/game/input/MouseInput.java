@@ -18,8 +18,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	int mx;
 	int my;
 
-	
-
 	public MouseInput(Handler handler, Camera cam) {
 		this.handler = handler;
 		this.cam = cam;
@@ -27,8 +25,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
 	public void mousePressed(MouseEvent e) {
 		if (Game.gs == StateID.Game) {
-			mx = (int) e.getX() + (int)cam.getX();
-			my = (int) e.getY() + (int)cam.getY();
+			mx = (int) e.getX() + (int) cam.getX();
+			my = (int) e.getY() + (int) cam.getY();
 		} else {
 			mx = (int) e.getX();
 			my = (int) e.getY();
@@ -36,8 +34,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
 		System.out.println("MX: " + mx + " | MY: " + my);
 
-		
-		
 		handler.setMousePressed(true, e.getButton());
 
 	}
@@ -45,8 +41,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (Game.gs == StateID.Game) {
-			mx = (int) e.getX() + (int)cam.getX();
-			my = (int) e.getY() + (int)cam.getY();
+			mx = (int) e.getX() + (int) cam.getX();
+			my = (int) e.getY() + (int) cam.getY();
 		} else {
 			mx = (int) e.getX();
 			my = (int) e.getY();
@@ -59,19 +55,18 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (Game.gs == StateID.Game) {
-			mx = (int) e.getX() + (int)cam.getX();
-			my = (int) e.getY() + (int)cam.getY();
+			mx = (int) e.getX() + (int) cam.getX();
+			my = (int) e.getY() + (int) cam.getY();
 		} else {
 			mx = (int) e.getX();
 			my = (int) e.getY();
 		}
-		
+
 		System.out.println("test");
 
 		handler.setMx(mx);
 		handler.setMy(my);
 
-		
 	}
 
 	@Override

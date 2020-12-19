@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class SpriteLibrary {
 
-
 	public Map<String, SpriteSet> units;
 	public Map<String, BufferedImage> tiles;
 
@@ -22,17 +21,16 @@ public class SpriteLibrary {
 		loadUnits("/sprites/units");
 		loadTiles("/sprites/tiles");
 	}
-	
+
 	private void loadTiles(String path) {
 		String[] imagesInFolder = getImagesInFolder(path);
 
 		for (String fileName : imagesInFolder) {
-			tiles.put(
-					fileName.substring(0, fileName.length() - 4),
+			tiles.put(fileName.substring(0, fileName.length() - 4),
 					BufferedImageLoader.loadImage(path + "/" + fileName));
 		}
 	}
-	
+
 	private void loadUnits(String path) {
 		String[] folderNames = getFolderNames(path);
 
