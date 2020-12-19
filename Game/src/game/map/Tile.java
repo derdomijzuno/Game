@@ -67,6 +67,7 @@ public class Tile {
 		default:
 			moveCost = 500;
 		}
+		
 		;
 		return moveCost;
 	}
