@@ -54,8 +54,6 @@ public class GameState extends State {
 		spriteLibrary = new SpriteLibrary();
 		map = new GameMap(level, spriteLibrary);
 
-		System.out.println("TEST");
-		
 		loadMap(map);
 
 		try {
