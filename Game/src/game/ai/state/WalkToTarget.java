@@ -7,6 +7,8 @@ import game.ai.AITransition;
 import game.controller.EnemyController;
 import game.core.Position;
 import game.entity.Enemy;
+import game.gfx.particles.TextParticle;
+import game.main.Handler;
 import game.map.Pathfinder;
 import game.states.GameState;
 
@@ -17,7 +19,6 @@ public class WalkToTarget extends AIState {
 	private Position givenTarget;
 
 	public WalkToTarget(Position target) {
-////		this.target = target;
 		this.path = new ArrayList<Position>();
 		this.givenTarget = target;
 	}
@@ -41,6 +42,8 @@ public class WalkToTarget extends AIState {
 
 		if (arrived(currentCharacter)) {
 			currentCharacter.setTarget(null);
+			Handler.particles.add(new TextParticle("ARRIVED!", currentCharacter.getPos().intX(),
+					currentCharacter.getPos().intY(), 50, 50));
 			controller.stop();
 		}
 

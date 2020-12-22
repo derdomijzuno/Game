@@ -1,5 +1,6 @@
 package game.states;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -17,7 +18,6 @@ import game.core.Position;
 import game.core.Size;
 import game.entity.Enemy;
 import game.entity.ID;
-import game.entity.Obstacle;
 import game.entity.Player;
 import game.gfx.BufferedImageLoader;
 import game.gfx.SpriteLibrary;
@@ -27,6 +27,7 @@ import game.main.Game;
 import game.main.Handler;
 import game.main.Time;
 import game.map.GameMap;
+import game.map.MapGenerator;
 
 public class GameState extends State {
 
@@ -35,11 +36,12 @@ public class GameState extends State {
 
 	public static Time time;
 
-	Font f = new Font("Comic Sans", Font.PLAIN, 28);
-	Font pixelMplus;
+	public static Font pixelMplus;
 
 	BufferedImage level;
 	private SpriteLibrary spriteLibrary;
+
+	MapGenerator mg;
 
 	public GameState(Handler handler, Camera cam) {
 		super(handler);
@@ -50,14 +52,19 @@ public class GameState extends State {
 
 		time = new Time();
 
-		level = BufferedImageLoader.loadImage("/level2.png/");
+		level = BufferedImageLoader.loadImage("/noiseMap.png/");
 		spriteLibrary = new SpriteLibrary();
 		map = new GameMap(level, spriteLibrary);
+//		map.initializeTiles(level);
 
-		loadMap(map);
+		mg = new MapGenerator();
+
+		mg.generateMap2(map);
+
+//		loadMap(map);
 
 		try {
-			pixelMplus = Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")).deriveFont(20f);
+			pixelMplus = Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")).deriveFont(15f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")));
 		} catch (IOException | FontFormatException e) {
@@ -66,14 +73,10 @@ public class GameState extends State {
 	}
 
 	private void loadMap(GameMap map) {
-		for (int x = 0; x < map.getTiles().length; x++) {
-			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				if (map.getTile(x, y).getTileName() == "wall") {
-					handler.addObject(new Obstacle(new Position(x * Game.tileSize, y * Game.tileSize),
-							new Size(Game.tileSize, Game.tileSize), ID.Obstacle));
-				}
-			}
-		}
+//		for (int x = 0; x < map.getTiles().length; x++) {
+//			for (int y = 0; y < map.getTiles()[0].length; y++) {
+//			}
+//		}
 
 		handler.addObject(
 				new Player(new Position(1 * Game.tileSize, 1 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
@@ -88,14 +91,11 @@ public class GameState extends State {
 	public void tick() {
 		sortObjectsByPosition();
 
-		for (int i = 0; i < handler.getObjects().size(); i++) {
-			if (handler.getObjects().get(i).getId() == ID.Player) {
-				camera.tick(handler.getObjects().get(i));
-			}
-		}
+		camera.tick();
 
 		if (handler.isMousePressed(MouseEvent.BUTTON1)) {
 			Handler.particles.add(new TextParticle("Deine Mudda", handler.getMx(), handler.getMy(), 200, 200));
+			handler.setMousePressed(false, MouseEvent.BUTTON1);
 		}
 
 		handler.tick();
@@ -117,6 +117,20 @@ public class GameState extends State {
 		renderMap(map, g);
 		handler.render(g);
 
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect((handler.getMx() / Game.tileSize) * Game.tileSize,
+				(handler.getMy() / Game.tileSize) * Game.tileSize, Game.tileSize, Game.tileSize);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
+		if (handler.isDebug()) {
+			g.setColor(Color.RED);
+			String mouseGridPos = "MX: " + handler.getMx() / Game.tileSize + " | MY: "
+					+ handler.getMy() / Game.tileSize;
+			g.drawString(mouseGridPos, handler.getMx() - 20, handler.getMy() - 20);
+
+		}
+
 		if (handler.isDebug() && handler.isShowTiles()) {
 
 			g.setColor(Color.RED);
@@ -134,10 +148,8 @@ public class GameState extends State {
 			g.setColor(Color.RED);
 			String mousePos = "MX: " + handler.getMx() + " | MY: " + handler.getMy();
 			g.drawString(mousePos, 50, 50);
-
-			String mouseGridPos = "MX: " + handler.getMx() / Game.tileSize + " | MY: "
-					+ handler.getMy() / Game.tileSize;
-			g.drawString(mouseGridPos, handler.getMx() - 20, handler.getMy() - 20);
+			String camPos = "CX: " + camera.getX() + " | CY: " + camera.getY();
+			g.drawString(camPos, 200, 100);
 
 		}
 
@@ -146,9 +158,15 @@ public class GameState extends State {
 	private void renderMap(GameMap map, Graphics g) {
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				if (map.getTile(x, y).getTileName() == "dirt") {
-					g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
-				}
+//				g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
+				String noise = map.getTile(x, y).getVNoise() + "";
+				Color nColor = new Color((int) map.getTile(x, y).getVNoise() + 75,
+						(int) map.getTile(x, y).getVNoise() + 75, (int) map.getTile(x, y).getVNoise() + 75);
+				g.setColor(nColor);
+				g.fillRect(x * Game.tileSize, y * Game.tileSize, Game.tileSize, Game.tileSize);
+				g.setColor(Color.WHITE);
+				g.drawString(noise, x * Game.tileSize + Game.tileSize / 4, y * Game.tileSize + Game.tileSize / 2);
+
 			}
 		}
 	}

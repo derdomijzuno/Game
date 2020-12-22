@@ -28,7 +28,7 @@ public class Player extends MovingEntity {
 		debug = " .";
 
 		this.animationManager = new AnimationManager(spriteLibrary.getUnit("dave"));
-		setSpeed(5);
+		setSpeed(8);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class Player extends MovingEntity {
 
 	private void WallCollisions() {
 		for (GameObject temp : handler.getObjects()) {
-			if (temp instanceof Obstacle) {
+			if (temp instanceof Enemy) {
 				if (getHitBox().getBoundsTop().intersects(temp.getHitBox().getBounds())) {
 					pos.setY(temp.getPos().getY() + temp.getSize().getHeight());
 				}

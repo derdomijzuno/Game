@@ -14,10 +14,15 @@ public class GameMap {
 	public GameMap(BufferedImage image, SpriteLibrary spriteLibrary) {
 		this.spriteLibrary = spriteLibrary;
 		map = new Tile[image.getWidth()][image.getHeight()];
-		initializeTiles(image);
+		
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map[0].length; y++) {
+				map[x][y] = new Tile(x, y, true, "dirt", spriteLibrary);
+			}
+		}
 	}
 
-	private void initializeTiles(BufferedImage image) {
+	public void initializeTiles(BufferedImage image) {
 
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[0].length; y++) {
@@ -28,8 +33,12 @@ public class GameMap {
 
 				if (red == 0 && green == 0 && blue == 0) {
 					map[x][y] = new Tile(x, y, false, "wall", spriteLibrary);
-				} else if (red == 255 && green == 127 && blue == 39) {
+				} else if (red == 185 && green == 122 && blue == 87) {
 					map[x][y] = new Tile(x, y, true, "dirt", spriteLibrary);
+				} else if (red == 63 && green == 72 && blue == 204) {
+					map[x][y] = new Tile(x, y, false, "water", spriteLibrary);
+				} else if (red == 34 && green == 177 && blue == 76) {
+					map[x][y] = new Tile(x, y, true, "grass", spriteLibrary);
 				} else {
 					map[x][y] = new Tile(x, y, true, "normal", spriteLibrary);
 				}

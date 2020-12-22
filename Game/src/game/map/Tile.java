@@ -10,6 +10,8 @@ public class Tile {
 	private boolean isWalkable;
 	private String tileName;
 	private BufferedImage sprite;
+	
+	private float VNoise;
 
 	public Tile(int x, int y, boolean isWalkable, String tileName, SpriteLibrary spriteLibrary) {
 		this.x = x;
@@ -61,7 +63,7 @@ public class Tile {
 		int moveCost = 0;
 		switch (tileName) {
 		case "dirt":
-			moveCost = 25;
+			moveCost = 10;
 			break;
 		default:
 			moveCost = 500;
@@ -70,5 +72,14 @@ public class Tile {
 		;
 		return moveCost;
 	}
+
+	public float getVNoise() {
+		return VNoise;
+	}
+
+	public void setVNoise(float vNoise) {
+		VNoise = vNoise;
+	}
+	
 
 }

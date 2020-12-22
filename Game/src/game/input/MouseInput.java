@@ -36,6 +36,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
 		handler.setMousePressed(true, e.getButton());
 
+		handler.setMx(mx);
+		handler.setMy(my);
 	}
 
 	@Override
@@ -57,12 +59,12 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 		if (Game.gs == StateID.Game) {
 			mx = (int) e.getX() + (int) cam.getX();
 			my = (int) e.getY() + (int) cam.getY();
+			handler.setCamx((int) e.getX());
+			handler.setCamy((int) e.getY());
 		} else {
 			mx = (int) e.getX();
 			my = (int) e.getY();
 		}
-
-		System.out.println("test");
 
 		handler.setMx(mx);
 		handler.setMy(my);
@@ -72,16 +74,22 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
+		handler.setMx(mx);
+		handler.setMy(my);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
+		handler.setMx(mx);
+		handler.setMy(my);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+		handler.setMx(mx);
+		handler.setMy(my);
 	}
 
 	@Override

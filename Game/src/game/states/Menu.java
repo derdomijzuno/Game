@@ -17,7 +17,7 @@ public class Menu extends State {
 	public Menu(Handler handler) {
 		super(handler);
 
-		btn1 = new Button(400, 300, 400, 200);
+		btn1 = new Button(Game.WindowWidth / 2 - 400 / 2, Game.WindowHeight / 2 - 200 / 2, 400, 200);
 	}
 
 	@Override
@@ -50,6 +50,9 @@ public class Menu extends State {
 		g.fillRect(0, 0, Game.WindowWidth, Game.WindowHeight);
 
 		btn1.render(g);
+		g.setColor(Color.BLACK);
+		g.setFont(GameState.pixelMplus.deriveFont(100f));
+		g.drawString("Play", btn1.getX() + btn1.getWidth() / 2 - 100, btn1.getY() + btn1.getHeight() / 2 + 25);
 	}
 
 }

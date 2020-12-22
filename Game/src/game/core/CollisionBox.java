@@ -24,19 +24,19 @@ public class CollisionBox {
 	}
 
 	public Rectangle getBoundsTop() {
-		return new Rectangle(x + width / 10, y, width - width / 5, height / 15);
+		return new Rectangle(x + width / 8, y, width - width / 4, height / 10);
 	}
 
 	public Rectangle getBoundsLeft() {
-		return new Rectangle(x, y + height / 10, width / 15, height - height / 5);
+		return new Rectangle(x, y + height / 8, width / 10, height - height / 4);
 	}
 
 	public Rectangle getBoundsRight() {
-		return new Rectangle(x + width - (width / 15), y + height / 10, width / 15, height - height / 5);
+		return new Rectangle(x + width - (width / 15), y + height / 8, width / 10, height - height / 4);
 	}
 
 	public Rectangle getBoundsBottom() {
-		return new Rectangle(x + width / 10, y + height - (height / 15), width - width / 5, height / 15);
+		return new Rectangle(x + width / 8, y + height - (height / 15), width - width / 4, height / 10);
 	}
 
 }

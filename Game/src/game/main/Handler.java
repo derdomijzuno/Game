@@ -12,10 +12,12 @@ public class Handler {
 	LinkedList<GameObject> objects = new LinkedList<GameObject>();
 	public static LinkedList<Particle> particles = new LinkedList<Particle>();
 	private boolean[] keys = new boolean[255];
+	private boolean[] keysTyped = new boolean[255];
 	private boolean[] mousePressed = new boolean[14];
 	private boolean debug = true, showTiles = true;
 
 	private int mx, my;
+	private int camx, camy;
 
 	public void render(Graphics g) {
 		for (int i = 0; i < objects.size(); i++) {
@@ -97,6 +99,26 @@ public class Handler {
 
 	public void setShowTiles(boolean showTiles) {
 		this.showTiles = showTiles;
+	}
+
+	public void setKeyTyped(boolean b, int keyCode) {
+		keysTyped[keyCode] = b;
+	}
+
+	public int getCamx() {
+		return camx;
+	}
+
+	public void setCamx(int camx) {
+		this.camx = camx;
+	}
+
+	public int getCamy() {
+		return camy;
+	}
+
+	public void setCamy(int camy) {
+		this.camy = camy;
 	}
 
 }

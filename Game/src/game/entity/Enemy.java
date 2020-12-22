@@ -34,7 +34,7 @@ public class Enemy extends MovingEntity {
 	public Enemy(Position pos, Size size, ID id, Handler handler, SpriteLibrary spriteLibrary) {
 		super(pos, size, id, new EnemyController(handler), spriteLibrary);
 		this.handler = handler;
-		setSpeed(5);
+		setSpeed(10);
 
 		aiManager = new AIManager();
 
@@ -79,11 +79,10 @@ public class Enemy extends MovingEntity {
 			Handler.particles.add(new TestParticle(pos.intX(), pos.intY(), 20, 20));
 		}
 
-//		if (aiManager.getTarget() != null) {
-		if (handler.isMousePressed(MouseEvent.BUTTON1) && handler.isKeyPressed(KeyEvent.VK_SPACE)) {
+		if (handler.isMousePressed(MouseEvent.BUTTON3)) {
 			setTarget(new Position(handler.getMx(), handler.getMy()));
 		}
-//		}
+
 		if (target != null && aiManager.getTarget() == null) {
 			aiManager.setTarget(target);
 		}
@@ -92,7 +91,7 @@ public class Enemy extends MovingEntity {
 
 	private void WallCollisions() {
 		for (GameObject temp : handler.getObjects()) {
-			if (temp instanceof Obstacle) {
+			if (temp instanceof Player) {
 				if (getHitBox().getBoundsTop().intersects(temp.getHitBox().getBounds())) {
 					pos.setY(temp.getPos().getY() + temp.getSize().getHeight());
 				}

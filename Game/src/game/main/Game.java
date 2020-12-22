@@ -29,7 +29,7 @@ public class Game extends Canvas implements Runnable {
 	private void init() {
 
 		handler = new Handler();
-		cam = new Camera(0, 0);
+		cam = new Camera(0, 0, handler);
 
 		menu = new Menu(handler);
 		game = new GameState(handler, cam);

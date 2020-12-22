@@ -23,10 +23,6 @@ public class KeyInput extends KeyAdapter {
 
 		handler.setKey(true, e.getKeyCode());
 
-//		if (key == KeyEvent.VK_ESCAPE) {
-//			System.exit(0);
-//		}
-
 		if (key == KeyEvent.VK_E) {
 			if (handler.isDebug())
 				handler.setDebug(false);

@@ -6,15 +6,34 @@ import game.states.GameState;
 public class Camera {
 
 	private float x, y;
+	private Handler handler;
 
-	public Camera(float x, float y) {
+	public Camera(float x, float y, Handler handler) {
 		this.x = x;
 		this.y = y;
+		this.handler = handler;
 	}
 
-	public void tick(GameObject temp) {
-		x += ((temp.getPos().getX() - x) - Game.WindowWidth / 2) * 0.05f;
-		y += ((temp.getPos().getY() - y) - Game.WindowHeight / 2) * 0.05f;
+	public void tick() {
+
+//		x += ((temp.getPos().getX() - x) - Game.WindowWidth / 2) * 0.05f;
+//		y += ((temp.getPos().getY() - y) - Game.WindowHeight / 2) * 0.05f;
+
+		if (handler.getCamx() < Game.tileSize * 2) {
+			x -= 10;
+		}
+		if (handler.getCamx() > Game.WindowWidth - Game.tileSize * 2) {
+//			x += ((handler.getMx() - x) - Game.WindowWidth / 2) * 0.05f;
+			x += 10;
+		}
+
+		if (handler.getCamy() < Game.tileSize * 2) {
+			y -= 10;
+		}
+		if (handler.getCamy() > Game.WindowHeight - Game.tileSize * 2) {
+			y += 10;
+//			y += ((handler.getMy() - y) - Game.WindowHeight / 2) * 0.05f;
+		}
 
 		if (x <= 0)
 			x = 0;
