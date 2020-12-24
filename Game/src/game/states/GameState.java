@@ -52,16 +52,17 @@ public class GameState extends State {
 
 		time = new Time();
 
-		level = BufferedImageLoader.loadImage("/level2.png/");
+		level = BufferedImageLoader.loadImage("/noiseMap.png/");
 		spriteLibrary = new SpriteLibrary();
 		map = new GameMap(level, spriteLibrary);
-//		map.initializeTiles(level);
 
 		mg = new MapGenerator();
 
 		mg.generateMap2(map);
+		
+		map.initializeTiles();
 
-//		loadMap(map);
+		loadMap(map);
 
 		try {
 			pixelMplus = Font.createFont(Font.TRUETYPE_FONT, new File("PixelMplus10-Regular.ttf")).deriveFont(15f);
@@ -158,14 +159,14 @@ public class GameState extends State {
 	private void renderMap(GameMap map, Graphics g) {
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-//				g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
-				String noise = map.getTile(x, y).getVNoise() + "";
-				Color nColor = new Color((int) map.getTile(x, y).getVNoise() + 75,
-						(int) map.getTile(x, y).getVNoise() + 75, (int) map.getTile(x, y).getVNoise() + 75);
-				g.setColor(nColor);
-				g.fillRect(x * Game.tileSize, y * Game.tileSize, Game.tileSize, Game.tileSize);
-				g.setColor(Color.WHITE);
-				g.drawString(noise, x * Game.tileSize + Game.tileSize / 4, y * Game.tileSize + Game.tileSize / 2);
+				g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
+//				String noise = map.getTile(x, y).getVNoise() + "";
+//				Color nColor = new Color((int) map.getTile(x, y).getVNoise()+ 100, (int) map.getTile(x, y).getVNoise()+ 100,
+//						(int) map.getTile(x, y).getVNoise()+ 100);
+//				g.setColor(nColor);
+//				g.fillRect(x * Game.tileSize, y * Game.tileSize, Game.tileSize, Game.tileSize);
+//				g.setColor(Color.WHITE);
+//				g.drawString(noise, x * Game.tileSize + Game.tileSize / 4, y * Game.tileSize + Game.tileSize / 2);
 
 			}
 		}
