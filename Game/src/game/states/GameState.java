@@ -52,7 +52,7 @@ public class GameState extends State {
 
 		time = new Time();
 
-		level = BufferedImageLoader.loadImage("/noiseMap.png/");
+		level = BufferedImageLoader.loadImage("/level2.png/");
 		spriteLibrary = new SpriteLibrary();
 		map = new GameMap(level, spriteLibrary);
 //		map.initializeTiles(level);

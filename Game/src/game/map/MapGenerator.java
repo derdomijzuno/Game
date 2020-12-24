@@ -29,7 +29,7 @@ public class MapGenerator {
 
 	public void generateMap2(GameMap map) {
 
-		float[][] noise1 = getVNoise(map, 5, -40, 40);
+		float[][] noise1 = getVNoise(map, 5, 40);
 //		float[][] noise2 = getVNoise(map, 5, -20, 20);
 //		float[][] noise3 = getVNoise(map, 2, -10, 10);
 //		float[][] noise4 = getVNoise(map, 1, -5, 5);
@@ -48,43 +48,41 @@ public class MapGenerator {
 
 	}
 
-	private float[][] getVNoise(GameMap map, int interval, int minNoise, int maxNoise) {
+	private float[][] getVNoise(GameMap map, int interval, int range) {
 
 		int w = map.getTiles().length;
 		int h = map.getTiles()[0].length;
+
+		int minNoise = -range;
+		int maxNoise = range;
 
 		Random r = new Random();
 
 		float[][] noise = new float[w][h];
 
-		for (int x = 0; x < noise.length / interval; x++) {
-			for (int y = 0; y < noise[x].length / interval; y++) {
+		for (int x = 0; x < noise.length / interval + 1; x++) {
+			for (int y = 0; y < noise[0].length / interval + 1; y++) {
 				noise[x * interval][y * interval] = r.nextInt(maxNoise - minNoise) + minNoise;
 			}
 		}
-
-//		for (int i = 1; i <= interval; i++) {
-//			float x1 = noise[(i - 1) * interval][0];
-//			float x2 = noise[i * interval][0];
-//			float dif = x2 - x1;
-//
-//			float rise = dif / (interval);
-//
-//			System.out.println("x1: " + x1 + " x2: " + x2 + " dif: " + dif + " rise: " + rise);
-//
-//			for (int i2 = 1; i2 < interval; i2++) {
-////				noise[(i - 1) * interval + i2][0] = noise[(i - 1) * interval][0] + rise * i2;
-////				System.out.println(noise[(i-1) * interval][0] + rise * i2);
-//			}
-//		}
-
-//		for (int i = 0; i < interval; i++) {
-//			float[] f1 = new float[interval + 1];
-//			for (int j = 0; j < interval + 1; j++) {
-//				f1[j] = noise[i * interval + j][0];
-//			}
-//
-//		}
+		// + interval < noise.length
+		for (int x = 0; x < noise.length; x++) {
+			for (int y = 0; y < noise[0].length; y++) {
+				if (x % interval < interval / 2) {
+					for (int i = 0; i < interval / 2; i++) {
+						noise[x + 1][y] = (float) (noise[x][y] * 0.75 + noise[x + interval - i][y] * 0.25);
+						System.out.println((x + 1) + " " + (x + interval - i));
+					}
+				}
+				if (x % interval > interval / 2) {
+					for (int i = 0; i < interval / 2; i++) {
+//						noise[x + 1][y] = (float) (noise[x][y] * 0.25 + noise[x + interval - i][y] * 0.75);
+//						System.out.println((x + 1) + " " + (x + interval - i));
+					}
+				}
+			}
+//			break;
+		}
 
 		return noise;
 	}
