@@ -21,9 +21,9 @@ public class Game extends Canvas implements Runnable {
 	Menu menu;
 	public static StateID gs;
 
-	public static final int tileSize = 64;
-	public static final int WindowWidth = 1280;
-	public static final int WindowHeight = 720;
+	public static final int tileSize = 10;
+	public static final int WindowWidth = 1920;
+	public static final int WindowHeight = 1080;
 	public static double TPS = 60;
 
 	private void init() {

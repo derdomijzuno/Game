@@ -30,14 +30,21 @@ public class MapGenerator {
 	public void generateMap2(GameMap map) {
 
 		float[][] noiseMap = new float[map.getTiles().length][map.getTiles()[0].length];
+		
+		float[][] octave1 = getVNoise(map, map.getTiles().length/2, 150);
+		float[][] octave2 = getVNoise(map, map.getTiles().length/4, 125);
+		float[][] octave3 = getVNoise(map, map.getTiles().length/8, 100);
+		float[][] octave4 = getVNoise(map, map.getTiles().length/16, 75);
+		float[][] octave5 = getVNoise(map, map.getTiles().length/32, 50);
+		float[][] octave6 = getVNoise(map, map.getTiles().length/64, 25);
+		float[][] octave7 = getVNoise(map, 2, 10);
+		float[][] octave8 = getVNoise(map, 1, 5);
 
-		float[][] noiseMap1 = getVNoise(map, 10, 40);
-		float[][] noiseMap2 = getVNoise(map, 5, 20);
-		float[][] noiseMap3 = getVNoise(map, 1, 10);
 
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				noiseMap[x][y] = noiseMap1[x][y] + noiseMap2[x][y] + noiseMap3[x][y];
+				noiseMap[x][y] = octave1[x][y] + octave2[x][y] + octave3[x][y] + octave4[x][y] + octave5[x][y]
+						+ octave6[x][y] + octave7[x][y] + octave8[x][y];
 			}
 		}
 

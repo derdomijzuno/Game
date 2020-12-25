@@ -17,7 +17,7 @@ public class GameMap {
 
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[0].length; y++) {
-				map[x][y] = new Tile(x, y, true, "dirt", spriteLibrary);
+				map[x][y] = new Tile(x, y, true, "", spriteLibrary);
 			}
 		}
 	}
@@ -26,16 +26,16 @@ public class GameMap {
 
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[0].length; y++) {
-				if (getTile(x, y).getVNoise() < 0.4) {
+				if (getTile(x, y).getVNoise() < 0.5) {
 					map[x][y] = new Tile(x, y, false, "water", spriteLibrary);
 				}
-				if (getTile(x, y).getVNoise() > 0.9 && getTile(x, y).getVNoise() < 1) {
+				if (getTile(x, y).getVNoise() > 0.5 && getTile(x, y).getVNoise() < 0.8) {
+					map[x][y] = new Tile(x, y, true, "grass", spriteLibrary);
+				}
+				if (getTile(x, y).getVNoise() > 0.8 && getTile(x, y).getVNoise() < 1) {
 					map[x][y] = new Tile(x, y, true, "dirt", spriteLibrary);
 				}
 
-				if (getTile(x, y).getVNoise() > 0.4 && getTile(x, y).getVNoise() < 9) {
-					map[x][y] = new Tile(x, y, true, "grass", spriteLibrary);
-				}
 			}
 		}
 
@@ -52,8 +52,6 @@ public class GameMap {
 	public Position getRandomPosition() {
 		double x = Math.random() * map.length * Game.tileSize;
 		double y = Math.random() * map[0].length * Game.tileSize;
-//		double x = Game.tileSize * 1;
-//		double y = Game.tileSize * 4;
 
 		return new Position(x, y);
 

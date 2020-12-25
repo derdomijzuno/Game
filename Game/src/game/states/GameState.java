@@ -59,7 +59,7 @@ public class GameState extends State {
 		mg = new MapGenerator();
 
 		mg.generateMap2(map);
-		
+
 		map.initializeTiles();
 
 		loadMap(map);
@@ -79,12 +79,12 @@ public class GameState extends State {
 //			}
 //		}
 
-		handler.addObject(
-				new Player(new Position(1 * Game.tileSize, 1 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
-						ID.Player, new PlayerController(handler), handler, spriteLibrary));
-
-		handler.addObject(new Enemy(new Position(14 * Game.tileSize, 2 * Game.tileSize),
-				new Size(Game.tileSize, Game.tileSize), ID.Enemy, handler, spriteLibrary));
+//		handler.addObject(
+//				new Player(new Position(1 * Game.tileSize, 1 * Game.tileSize), new Size(Game.tileSize, Game.tileSize),
+//						ID.Player, new PlayerController(handler), handler, spriteLibrary));
+//
+//		handler.addObject(new Enemy(new Position(14 * Game.tileSize, 2 * Game.tileSize),
+//				new Size(Game.tileSize, Game.tileSize), ID.Enemy, handler, spriteLibrary));
 
 	}
 
@@ -159,15 +159,12 @@ public class GameState extends State {
 	private void renderMap(GameMap map, Graphics g) {
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[0].length; y++) {
-				g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
-//				String noise = map.getTile(x, y).getVNoise() + "";
-//				Color nColor = new Color((int) map.getTile(x, y).getVNoise()+ 100, (int) map.getTile(x, y).getVNoise()+ 100,
-//						(int) map.getTile(x, y).getVNoise()+ 100);
-//				g.setColor(nColor);
-//				g.fillRect(x * Game.tileSize, y * Game.tileSize, Game.tileSize, Game.tileSize);
-//				g.setColor(Color.WHITE);
-//				g.drawString(noise, x * Game.tileSize + Game.tileSize / 4, y * Game.tileSize + Game.tileSize / 2);
-
+				if (x * Game.tileSize < camera.getX() + Game.WindowWidth
+						&& y * Game.tileSize < camera.getY() + Game.WindowHeight
+						&& x * Game.tileSize + Game.WindowWidth > camera.getX() + Game.WindowWidth - Game.tileSize
+						&& y * Game.tileSize + Game.WindowHeight > camera.getY() + Game.WindowHeight - Game.tileSize) {
+					g.drawImage(map.getTile(x, y).getSprite(), x * Game.tileSize, y * Game.tileSize, null);
+				}
 			}
 		}
 	}
